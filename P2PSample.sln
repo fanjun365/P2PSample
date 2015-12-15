@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{19563E7E-762B-49A4-949F-DB88E29A689A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peer", "Peer\Peer.csproj", "{2A3B926C-5B28-4827-8C2E-25858B15C087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net", "LumiSoft.Net-master\Net.csproj", "{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19563E7E-762B-49A4-949F-DB88E29A689A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19563E7E-762B-49A4-949F-DB88E29A689A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19563E7E-762B-49A4-949F-DB88E29A689A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19563E7E-762B-49A4-949F-DB88E29A689A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A3B926C-5B28-4827-8C2E-25858B15C087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A3B926C-5B28-4827-8C2E-25858B15C087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A3B926C-5B28-4827-8C2E-25858B15C087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A3B926C-5B28-4827-8C2E-25858B15C087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB36CCF-5FFD-4780-A54E-A102ECA028B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

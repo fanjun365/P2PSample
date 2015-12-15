@@ -1,0 +1,2586 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>zlBase.SharedLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:ZLBase.Mapping.MappingConst">
+            <summary>
+            映射导出xml的节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingConst.BinDir">
+            <summary>
+            程序集根路径
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingConst.FunctionImageDir">
+            <summary>
+            映射函数的图片路径
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingConst.FunctionConfigFile">
+            <summary>
+            配置文件路径
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SecurityHelper.HashObject(System.Object)">
+            <summary>
+            计算对象的HASH数列
+            </summary>
+            <param name="valueToHash">欲计算的对象</param>
+            <returns>HASH数列的BASE64编码</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SecurityHelper.DESEncrypt(System.Byte[],System.String)">
+            <summary>
+            使用DES加密算法对数据加密
+            </summary>
+            <param name="data">欲加密的字节数组</param>
+            <param name="key">密钥</param>
+            <returns>加密后的字节数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SecurityHelper.DESDecrypt(System.Byte[],System.String)">
+            <summary>
+            使用DES加密算法对数据解密
+            </summary>
+            <param name="data">欲解密的字节数组</param>
+            <param name="key">密钥</param>
+            <returns>解密后的字节数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SecurityHelper.DESEncrypt(System.String,System.String)">
+            <summary>
+            使用DES加密算法对数据加密
+            </summary>
+            <param name="data">欲加密的字符串</param>
+            <param name="key">密钥</param>
+            <returns>加密后的字符串</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SecurityHelper.DESDecrypt(System.String,System.String)">
+            <summary>
+            使用DES加密算法对数据解密
+            </summary>
+            <param name="data">欲解密的字符串</param>
+            <param name="key">密钥</param>
+            <returns>解密后的字符串</returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor">
+            <summary>
+            通用的对称加密算法类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor.#ctor(System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="algorithm">对称加密算法，比如RC2, DES, TripleDES等等</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor.GetLegalKey(System.String)">
+            <summary>
+            获得密钥
+            </summary>
+            <returns>密钥</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor.GetLegalIV">
+            <summary>
+            获得初始向量IV
+            </summary>
+            <returns>初试向量IV</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor.Encrypto(System.Byte[],System.String)">
+            <summary>
+            加密方法
+            </summary>
+            <param name="Source">待加密的串</param>
+            <returns>经过加密的数据</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.GenericSymmetricCryptor.Decrypto(System.Byte[],System.String)">
+            <summary>
+            解密方法
+            </summary>
+            <param name="Source">待解密的串</param>
+            <returns>经过解密的数据</returns>
+        </member>
+        <member name="T:ZLBase.Mapping.MappingFunctionStorage">
+            <summary>
+            映射函数父类
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.IsPropertyCanEdit(System.String,System.Int32)">
+            <summary>
+            是否可以编辑属性
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.IsPropertyCustomSet(System.String,System.Int32,System.String@)">
+            <summary>
+            是否自定义设置
+            如果已自定义那么返回true
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.AddProperty(System.String)">
+            <summary>
+            添加参数
+            如果value不是空，那么说明是连接线
+            </summary>
+            <returns>参数名称</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.DeleteProperty(System.String,System.Int32)">
+            <summary>
+            删除属性
+            </summary>
+            <param name="name"></param>
+            <param name="index"></param>
+            <returns>是否允许删除</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetPropertyValueDisplay(System.String,System.Int32)">
+            <summary>
+            获取参数的显示值
+            </summary>
+            <param name="name">参数名称</param>
+            <param name="index">参数索引</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.CustomGetPropertyValue(System.Object,System.Object)">
+            <summary>
+            自定义属性值获取
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.CustomSetPropertyValue(System.Object,System.Object)">
+            <summary>
+            自定义属性值设置
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.CustomShowPropertyBag(System.Object)">
+            <summary>
+            自定义显示属性
+            </summary>
+            <param name="bag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            通过XML恢复
+            </summary>
+            <param name="parentXml"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.ExportToXml(System.Xml.XmlDocument,System.Xml.XmlNode)">
+            <summary>
+            导出XML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetCShapScript">
+            <summary>
+            获取脚本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetValueMethodName(System.String)">
+            <summary>
+            获取获取取值方法名称
+            </summary>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:ZLBase.Mapping.MappingFunctionStorage.GetLineParameterIndex”忽略有格式错误的 XML 注释 -->
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetParameter">
+            <summary>
+            忽略加载的参数个数
+            0开始
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetSubItems">
+            <summary>
+            获取资源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.IsValid(System.String@)">
+            <summary>
+            配置是否合法
+            </summary>
+            <param name="errMsg">不合法时的错误信息</param>
+            <returns>是否合法</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.BuildDynamicScriptHeader(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            生成方法头
+            </summary>
+            <param name="functionName"></param>
+            <param name="returnType"></param>
+            <param name="paramType"></param>
+            <param name="numParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionStorage.GetImage(System.String)">
+            <summary>
+            根据名称获取Image
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.ID">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.Name">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.Instruction">
+            <summary>
+            函数说明
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.scriptType">
+             <summary>
+            脚本类型
+             </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.Category">
+            <summary>
+            分组
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.CallName">
+            <summary>
+            调用方法名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.OutputType">
+            <summary>
+            输出参数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.MaxParameterNO">
+            <summary>
+            最大参数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.BackImage">
+            <summary>
+            背景图片
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.IsBatch">
+            <summary>
+            循环
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.ExtenInfo">
+            <summary>
+            扩展信息
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.PositionRect">
+            <summary>
+            函数开始位置
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.Note">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.MinParameterNO">
+            <summary>
+            最小参数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.ParEntity">
+            <summary>
+            参数值AND类型
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.FixedParameter">
+            <summary>
+            固定参数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.ParameterAddRunID">
+            <summary>
+            函数参数是否添加运行时ID
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.AddCallParentNode">
+            <summary>
+            添加函数调用到父节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.IsForechNode">
+            <summary>
+            直接连接目标节点是否开启循环
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionStorage.IsCheckFatherForech">
+            <summary>
+            检查父函数是否循环
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.LicenseInfoBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.#ctor(ZLBase.SharedLibrary.AppGrantInfo,ZLBase.SharedLibrary.GrantedItem[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="appGrant"></param>
+            <param name="extra">扩展许可项（如果指定了扩展许可项，则至少拥有一个扩展许可才表示拥有'基础应用许可'）</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.Init(ZLBase.SharedLibrary.AppGrantInfo)">
+            <summary>
+            初始化逻辑
+            </summary>
+            <param name="appGrant"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.HasGranted(System.String)">
+            <summary>
+            是否拥有扩展授权
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.Clone``1">
+            <summary>
+            自定义克隆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.Create(ZLBase.SharedLibrary.AppGrantInfo,System.String,ZLBase.SharedLibrary.GrantedItem[])">
+            <summary>
+            创建
+            </summary>
+            <param name="appGrant"></param>
+            <param name="product"></param>
+            <param name="extra"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfoBase.CreateTemporaryGrant(System.String,ZLBase.SharedLibrary.GrantedItem[],System.Int32)">
+            <summary>
+            创建临时授权
+            </summary>
+            <param name="product"></param>
+            <param name="extra"></param>
+            <param name="days"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.GrantItems">
+            <summary>
+            许可项
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.OverDueDate">
+            <summary>
+            基础应用许可时间限制
+            DateTime.MaxValue为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.LeftDays">
+            <summary>
+            许可剩余时间(int.MaxValue表示未限制)
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.BaseGranted">
+            <summary>
+            基础应用许可
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.MaxStation">
+            <summary>
+            最大站点数
+            -1为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.OragnName">
+            <summary>
+            授权单位名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.ProductTitle">
+            <summary>
+            产品标题
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.Developer">
+            <summary>
+            开发商
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.Supporter">
+            <summary>
+            技术支持商
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.Supporterwebsite">
+            <summary>
+            支持商网站
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.LicenseInfoBase.Supportermail">
+            <summary>
+            支持商邮箱
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.LicenseInfo">
+            <summary>
+            应用许可信息
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfo.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfo.#ctor(ZLBase.SharedLibrary.AppGrantInfo,ZLBase.SharedLibrary.GrantedItem[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="appGrant"></param>
+            <param name="extra"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfo.Clone">
+            <summary>
+            自定义克隆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseInfo.WriteTemporaryGrant(ZLBase.SharedLibrary.AppGrantInfo)">
+            <summary>
+            创建临时授权
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo">
+            <summary>
+            应用许可信息
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.#ctor(ZLBase.SharedLibrary.AppGrantInfo,ZLBase.SharedLibrary.GrantedItem[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="appGrant"></param>
+            <param name="extra"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.Init(ZLBase.SharedLibrary.AppGrantInfo)">
+            <summary>
+            初始化逻辑
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.Clone">
+            <summary>
+            自定义克隆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.WriteTemporaryGrant(ZLBase.SharedLibrary.AppGrantInfo)">
+            <summary>
+            创建临时授权
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.ManageGranted">
+            <summary>
+            维护许可
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.ZLMIPv1LicenseInfo.DevGranted">
+            <summary>
+            开发许可
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.GrantedItem">
+            <summary>
+            扩展授权项
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantedItem.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="id"></param>
+            <param name="title"></param>
+            <param name="withinTempGranted"></param>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.GrantedItem.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.GrantedItem.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.GrantedItem.WithinTempGranted">
+            <summary>
+            临时授权中是否包含该项
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.MessageTransform">
+            <summary>
+            映射转换类
+            </summary>
+        </member>
+        <member name="F:ZLBase.Mapping.MessageTransform.m_argumentList">
+            <summary>
+            扩展信息
+            </summary>
+        </member>
+        <member name="F:ZLBase.Mapping.MessageTransform.m_enableDocumentFunction">
+            <summary>
+            是否启用对 XSLT document() 函数的支持
+            </summary>
+        </member>
+        <member name="F:ZLBase.Mapping.MessageTransform.m_enableScript">
+            <summary>
+            是否启用对嵌入式脚本块的支持
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="xslt">xslt内容</param>
+            <param name="enableDocumentFunction">是否启用对 XSLT document() 函数的支持</param>
+            <param name="enableScript">是否启用对嵌入式脚本块的支持</param>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.Transform(System.Xml.XmlReader)">
+            <summary>
+            执行xslt转换
+            </summary>
+            <param name="inXml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.Transform(System.Xml.XmlReader,System.Text.Encoding)">
+            <summary>
+            执行xslt转换
+            </summary>
+            <param name="inXml"></param>
+            <param name="encoding">编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.CompilerXslt">
+            <summary>
+            XSLT编译
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.NewInstance(System.String,System.String)">
+            <summary>
+            创建实例
+            </summary>
+            <param name="xslt"></param>
+            <param name="extensionXml">扩展信息XML</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.NewInstance(System.String,ZLBase.Mapping.ExtensionCollection)">
+            <summary>
+            创建实例
+            </summary>
+            <param name="xslt"></param>
+            <param name="extesion">扩展信息对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MessageTransform.Dispose">
+            <summary>
+            资源销毁
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MessageTransform.IsCompiled">
+            <summary>
+            是否进行了编译
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MessageTransform.Xslt">
+            <summary>
+            当前XSLT
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.StringWriterEncoding">
+            <summary>
+            自定义编码格式的的StringWriter
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.MsgCompilerXsltExption">
+            <summary>
+            节点映射编译异常
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Interface.ILogger">
+            <summary>
+            日志记录者接口
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Debug(System.String)">
+            <summary>
+            记录调试级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Debug(System.String,System.Exception)">
+            <summary>
+            记录调试级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+            <param name="ex">异常</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Info(System.String)">
+            <summary>
+            记录消息级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Info(System.String,System.Exception)">
+            <summary>
+            记录消息级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+            <param name="ex">异常</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Warn(System.String)">
+            <summary>
+            记录警告级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Warn(System.String,System.Exception)">
+            <summary>
+            记录警告级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+            <param name="ex">异常</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Error(System.String)">
+            <summary>
+            记录错误级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Error(System.String,System.Exception)">
+            <summary>
+            记录错误级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+            <param name="ex">异常</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Fatal(System.String)">
+            <summary>
+            记录致命错误级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILogger.Fatal(System.String,System.Exception)">
+            <summary>
+            记录致命错误L级别的日志
+            </summary>
+            <param name="message">日志信息</param>
+            <param name="ex">异常</param>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Schema.XmlContentModel">
+            <summary>
+            解析XmlSchemaSet中所有元素的内容模型，参见文档《内容模型结构图》。
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModel.#ctor(System.Xml.Schema.XmlSchemaSet)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="schemaSet">已编译的文档集</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModel.GetSubstitutionElement(ZLBase.SharedLibrary.Schema.XmlContentModelNode)">
+            <summary>
+            获取指定子元素节点的可替换元素
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModel.GetAnyRefElement(ZLBase.SharedLibrary.Schema.XmlContentModelNode)">
+            <summary>
+            获取any节点可引用的根元素
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModel.HandleID">
+            <summary>
+            内容模型对象的唯一标识
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModel.SchemaSet">
+            <summary>
+            内容模型对象映射的架构集
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModel.SchemaList">
+            <summary>
+            主文档及其所有引用的文档
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModel.RootElementDic">
+            <summary>
+            所有xml根元素的集合，包括从引用文档继承的元素。key：元素限定名，value：元素映射的内容模型节点。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModel.SubstitutionDic">
+            <summary>
+            key：被替换元素的限定名称，value：可替换的元素集和。只有根级元素定义可设置替换元素，已排除抽象元素。
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.XmlConvertEx">
+            <summary>
+            XmlConvert 扩展
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToEnum``1(System.String)">
+            <summary>
+            将 System.String 转换为等效的 枚举值。
+            </summary>
+            <typeparam name="EnumType">枚举类型</typeparam>
+            <param name="s">要转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.EnumToString``1(``0)">
+            <summary>
+            将 System.Drawing.Font 转换为 System.String。
+            </summary>
+            <param name="val">要转换的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Char)">
+            <summary>
+            将 char 转换为 System.String。
+            </summary>
+            <param name="val">要转换的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToChar(System.String)">
+            <summary>
+            将 System.String 转换为等效的 char。
+            </summary>
+            <param name="s">要转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Drawing.Size)">
+            <summary>
+            将 System.Drawing.Color 转换为 System.String。
+            </summary>
+            <param name="val">要转换的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToSize(System.String)">
+            <summary>
+            将 System.String 转换为等效的 System.Drawing.Color。
+            </summary>
+            <param name="s">要转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Drawing.Color)">
+            <summary>
+            将 System.Drawing.Color 转换为 System.String。
+            </summary>
+            <param name="val">要转换的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToColor(System.String)">
+            <summary>
+            将 System.String 转换为等效的 System.Drawing.Color。
+            </summary>
+            <param name="s">要转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Drawing.Font)">
+            <summary>
+            将 System.Drawing.Font 转换为 System.String。
+            </summary>
+            <param name="val">要转换的值</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToFont(System.String)">
+            <summary>
+            将 System.String 转换为等效的 System.Drawing.Font。
+            </summary>
+            <param name="s">要转换的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Drawing.Rectangle)">
+            <summary>
+            将 System.Drawing.Rectangle 转换为 System.String。
+            </summary>
+            <param name="rectF"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToRectangleF(System.String)">
+            <summary>
+            将 System.String 转换为等效的 System.Drawing.Rectangle 值。
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToString(System.Drawing.PointF)">
+            <summary>
+            将 System.Drawing.PointF 转换为 System.String。
+            </summary>
+            <param name="ptF"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XmlConvertEx.ToPointF(System.String)">
+            <summary>
+            将 System.String 转换为等效的 System.Drawing.PointF 值。
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.Mapping.MappingManageStorage">
+            <summary>
+            消息映射信息存储
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.LoadFromXml(System.Xml.XmlDocument)">
+            <summary>
+            从XML中恢复
+            </summary>
+            <param name="parentXml"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.LoadFromXml(System.String)">
+            <summary>
+            从XML中恢复
+            </summary>
+            <param name="parentXml"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.ExportToXml">
+            <summary>
+            导出XML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.ToMappScript(System.Xml.XmlDocument,System.Xml.XmlNode)">
+            <summary>
+            导出脚本
+            </summary>
+            <param name="doc"></param>
+            <param name="root"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.ToRelation(System.Xml.XmlDocument,System.Xml.XmlNode)">
+            <summary>
+            导出关系
+            </summary>
+            <param name="doc"></param>
+            <param name="root"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.GetMappScript(System.Xml.XmlNode,System.Collections.Generic.Dictionary{System.String,ZLBase.Mapping.DragFunction})">
+            <summary>
+            函数
+            </summary>
+            <param name="parentNode"></param>
+            <param name="Functions"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.GetRelation(System.Xml.XmlNode)">
+            <summary>
+            关系
+            </summary>
+            <param name="parentNode"></param>
+            <param name="mappManage"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.GetXslt">
+            <summary>
+            获取映射的XSLT
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.GetExtenInfo">
+            <summary>
+            获取扩展信息Xml
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.RemoveNoCanLine">
+            <summary>
+            移除不能连接的连接线
+            用于兼容消息格式发生变化后，在进行设计
+            </summary>
+            <param name="inSchema"></param>
+            <param name="outSchema"></param>
+            <returns>是否进行了移除</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.CheckSchema(ZLBase.SharedLibrary.Schema.XmlContentModel,ZLBase.SharedLibrary.Schema.XmlContentModel)">
+            <summary>
+            检查Scham是否符合该映射
+            </summary>
+            <param name="inSchema"></param>
+            <param name="outSchema"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.GetInAndOutName(ZLBase.Mapping.MappingRelationStorage,System.String@,System.String@)">
+            <summary>
+            获取传入传出节点名称
+            </summary>
+            <param name="relation"></param>
+            <param name="inNode"></param>
+            <param name="outNode"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.CheckRelation(ZLBase.SharedLibrary.Schema.XmlContentModel,ZLBase.SharedLibrary.Schema.XmlContentModel,ZLBase.Mapping.MappingRelationStorage)">
+            <summary>
+            检查连线是否有效
+            </summary>
+            <param name="inSchema"></param>
+            <param name="outSchema"></param>
+            <param name="relation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.ExistSchemaXpath(ZLBase.SharedLibrary.Schema.XmlContentModel,System.String)">
+            <summary>
+            判断schema中存在Xpath
+            </summary>
+            <param name="decode"></param>
+            <param name="xpath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingManageStorage.ExistXpath(ZLBase.SharedLibrary.Schema.XmlContentModelNode,System.String,System.Int32)">
+            <summary>
+            测试
+            </summary>
+            <param name="item"></param>
+            <param name="xpname"></param>
+            <param name="i"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.MappRelation">
+            <summary>
+            当前关系
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.MappFunctions">
+            <summary>
+            当前映射中的函数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.InputXmlModel">
+            <summary>
+            传入消息类型
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.InputElementName">
+            <summary>
+            传入消息节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.OutputXmlModel">
+            <summary>
+            传出消息类型
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingManageStorage.OutputElementName">
+            <summary>
+            传出消息节点
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.ParameterEntity">
+            <summary>
+            参数实体类，存储参数类型和参数值
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.ParameterEntity.Chone">
+            <summary>
+            深度复制
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.ParameterEntity.Value">
+            <summary>
+            参数值
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ParameterEntity.Name">
+            <summary>
+            参数名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ParameterEntity.SourceType">
+            <summary>
+            参数来源类型
+            true连线，fasle常量
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ParameterEntity.ParaType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.GrantService">
+            <summary>
+            授权服务
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantService.HasGranted(System.String)">
+            <summary>
+            是否拥有扩展授权
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantService.#ctor(ZLBase.SharedLibrary.Interface.ILoggerFactory,System.String,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory"></param>
+            <param name="licFilePath"></param>
+            <param name="product"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantService.#ctor(ZLBase.SharedLibrary.Interface.ILoggerFactory,System.String,ZLBase.SharedLibrary.GrantedItem[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory"></param>
+            <param name="licFilePath"></param>
+            <param name="extra"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantService.ReloadLicense(System.String)">
+            <summary>
+            重新加载授权文件
+            </summary>
+            <param name="licFilePath"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.GrantService.LoadLicense(System.String,System.String,ZLBase.SharedLibrary.GrantedItem[],ZLBase.SharedLibrary.AppGrantInfo@,ZLBase.SharedLibrary.LicenseInfoBase@)">
+            <summary>
+            读取授权
+            </summary>
+            <param name="licFilePath"></param>
+            <param name="product"></param>
+            <param name="extra"></param>
+            <param name="appGrant"></param>
+            <param name="license"></param>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.GrantService.License">
+            <summary>
+            许可信息
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.LicenseExpireException">
+            <summary>
+            授权失效异常
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseExpireException.#ctor(System.String,System.Exception)">
+            <summary>
+            使用指定错误消息和对作为此异常原因的内部异常的引用来初始化 System.Exception 类的新实例。
+            </summary>
+            <param name="message">解释异常原因的错误消息。</param>
+            <param name="innerException">导致当前异常的异常；如果未指定内部异常，则是一个 null 引用。</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.LicenseExpireException.#ctor(System.String)">
+            <summary>
+            使用指定的错误消息初始化 System.Exception 类的新实例。
+            </summary>
+            <param name="message">解释异常原因的错误消息。</param>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.AppGrantInfo">
+            <summary>
+            应用许可信息
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.AppGrantInfo.Clone">
+            <summary>
+            自定义克隆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.BaseApp">
+            <summary>
+            基础应用许可
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.BaseAppOverDueDate">
+            <summary>
+            基础应用许可时间限制
+            DateTime.MaxValue为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.MaxStation">
+            <summary>
+            最大站点数
+            -1为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.GrantItems">
+            <summary>
+            许可项
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.BaseDev">
+            <summary>
+            开发许可
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.BaseDevOverDueDate">
+            <summary>
+            开发许可时间限制
+            DateTime.MaxValue为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.Maintain">
+            <summary>
+            维护许可
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.MaintainOverDueDate">
+            <summary>
+            维护许可时间限制
+            DateTime.MaxValue为不限制
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.MessageApp">
+            <summary>
+            是否允许及时通讯
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.MailApp">
+            <summary>
+            是否允许邮件
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.FixApp">
+            <summary>
+            是否控制固化应用
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.AppResourceList">
+            <summary>
+            控制的资源类型
+            智能窗体:e337777a-e5ad-485c-87c5-7cf20d455847
+            普通报表
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.ModuleInfo">
+            <summary>
+            模块应用信息
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.ServerID">
+            <summary>
+            用户服务器唯一ID,多台用;分隔
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.OragnName">
+            <summary>
+            授权单位名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.BHTitle">
+            <summary>
+            BH标题
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.ProductTitle">
+            <summary>
+            产品标题
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.Developer">
+            <summary>
+            开发商
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.Supporter">
+            <summary>
+            技术支持商
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.Supporterwebsite">
+            <summary>
+            支持商网站
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.AppGrantInfo.Supportermail">
+            <summary>
+            支持商邮箱
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.XQueryWrapper">
+            <summary>
+            XQuery包装类
+            </summary>
+             Copyright (c) 2012-2018 中联信息产业公司
+             创 建 人：范俊
+             创建日期：2012-03-15 14:49
+             修 改 人：
+             修改内容：
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.#ctor(System.String,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="regexOfVar">匹配变量名的正则表达式。缺省为“(M|m)sg”。</param>
+            <param name="defaultBaseUri">缺省的XQuery.BaseUri</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.GenerateXQuery(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.String}@)">
+            <summary>
+            生成最终的XQuery语句
+            </summary>
+            <param name="queryText"></param>
+            <param name="paramVals"></param>
+            <param name="paramReplaceName">在XQuery中的变量名(Key:变量名,Value:XQuery中实际的变量名).不包含未在XQuery中用到的变量</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.QueryCore(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            执行XQuery查询
+            </summary>
+            <param name="queryText"></param>
+            <param name="paramVals"></param>
+            <param name="baseUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.Query(System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            执行XQuery查询
+            </summary>
+            <param name="queryText"></param>
+            <param name="paramVals"></param>
+            <param name="baseUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.Query(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            执行XQuery查询
+            </summary>
+            <param name="queryText"></param>
+            <param name="paramVals"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.Query(System.String,System.String)">
+            <summary>
+            执行XQuery查询
+            </summary>
+            <param name="queryText"></param>
+            <param name="baseUri"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.Query(System.String)">
+            <summary>
+            执行XQuery查询
+            </summary>
+            <param name="queryText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.ConvertToString(Saxon.Api.XdmValue)">
+            <summary>
+            值内容转为字符串
+            </summary>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.GetVarNameInXQuery(System.String)">
+            <summary>
+            根据文档变量编码，获取XQuery中的变量名
+            </summary>
+            <param name="identify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.ReplaceVar(System.String,System.String,System.String@,System.String@)">
+            <summary>
+            替换指定的“消息内容”变量
+            </summary>
+            <param name="input">待替换的代码段</param>
+            <param name="identify">消息内容标识</param>
+            <param name="varName">在XQuery中的变量名(不带前缀'$')</param>
+            <param name="varName">消息内容标识变量名</param>
+            <param name="output">替换后的代码段</param>
+            <returns>是否执行了替换</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.GetRegexOfVar(System.String)">
+            <summary>
+            获取文档变量查询的正则表达式
+            </summary>
+            <param name="identify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.XQueryWrapper.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.XQueryWrapper.DefaultBaseUri">
+            <summary>
+            缺省的XQuery.BaseUri
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.XQueryWrapper.SequenceSeparator">
+            <summary>
+            序列的分隔符(返回结果的序列转为字符串时使用)
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.XQueryWrapper.RegexOfVar">
+            <summary>
+            匹配变量名的正则表达式
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.UriHelper">
+            <summary>
+            URI路径处理帮助类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.CheckDirPath(System.String)">
+            <summary>
+            检查文件夹路径字符串是否以斜杠字符结束：一个文件夹路径可以看做是一个无扩展名的文件路径，类型“Uri/Path”无法判断一个路径字符串表示文件还是文件夹，因而统一作为文件路径处理。只能在调用点判断如果是文件夹路径，强制以斜杠字符结束，否则转换相对路径和绝对路径等操作时会出错。
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.FormatAbsolutePath(System.String)">
+            <summary>
+            规范化文件/文件夹的绝对路径字符串
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.IsRelativePath(System.String)">
+            <summary>
+            是否为相对路径
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.ConvertToAbsolute(System.String,System.String)">
+            <summary>
+            把相对路径转换为绝对路径
+            </summary>
+            <param name="basePath">作为参考点的绝对路径，只能是文件夹路径。</param>
+            <param name="relativePath">文件/文件夹的相对路径</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.ConvertToRelative(System.String,System.String)">
+            <summary>
+            把绝对路径转换为相对路径
+            </summary>
+            <param name="basePath">作为参考点的绝对路径，只能是文件夹路径。</param>
+            <param name="absolutePath">文件/文件夹的绝对路径</param>
+            <returns>文件/文件夹的相对路径</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.IsUriStrEqual(System.String,System.String)">
+            <summary>
+            判断两个uri字符串是否指向相同位置
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.UriHelper.IsBaseOf(System.String,System.String)">
+            <summary>
+            确定dirUriStr是否为uriStr的基目录
+            </summary>
+            <param name="dirUriStr">文件夹路径绝对路径</param>
+            <param name="uriStr">文件/文件夹路径绝对路径</param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingRelationStorage.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            通过XML恢复
+            </summary>
+            <param name="parentXml"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingRelationStorage.ExportToXml(System.Xml.XmlDocument,System.Xml.XmlNode)">
+            <summary>
+            导出XML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingRelationStorage.Relation_Type">
+            <summary>
+            关系类型
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingRelationStorage.ValueType">
+            <summary>
+            获取值得方式
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingRelationStorage.In_Node">
+            <summary>
+            开始节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingRelationStorage.Out_Node">
+            <summary>
+            结束节点
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.MappingDataTypeBase">
+            <summary>
+            映射数据类型
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingDataTypeBase.IsCompatible(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否兼容
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingDataTypeBase.IsSameType(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否同一个类型
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingDataTypeBase.IsDataValid(System.Object)">
+            <summary>
+            检查数据是否匹配
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingDataTypeBase.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.SimpleDataType">
+            <summary>
+            映射基本数据类型
+            </summary>
+        </member>
+        <member name="F:ZLBase.Mapping.SimpleDataType.m_parameterType">
+            <summary>
+            基本类型
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.#ctor(ZLBase.Mapping.ParameterType)">
+            <summary>
+            构造函数
+            用于基本类型的创建
+            </summary>
+            <param name="parameterType"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.IsCompatible(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否兼容
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.IsSameType(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否同一个类型
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.IsDataValid(System.Object)">
+            <summary>
+            检查数据是否匹配
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="F:ZLBase.Mapping.SimpleDataType.m_dataType">
+            <summary>
+            类型缓存，一种类型只存在一个对象
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.GetSimpleDataType(ZLBase.Mapping.ParameterType)">
+            <summary>
+            获取基本类型
+            </summary>
+            <param name="parameterType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.GetDataTypeByID(System.String)">
+            <summary>
+            获取指定ID的基本类型
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.SimpleDataType.AddSimpleDataType(ZLBase.Mapping.ParameterType)">
+            <summary>
+            添加基本类型
+            </summary>
+            <param name="parameterType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.Mapping.BranchDataType">
+            <summary>
+            分支节点类型
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.BranchDataType.IsCompatible(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否兼容
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.BranchDataType.IsSameType(ZLBase.Mapping.MappingDataTypeBase)">
+            <summary>
+            判断类型是否同一个类型
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.BranchDataType.IsDataValid(System.Object)">
+            <summary>
+            检查数据是否匹配
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.BranchDataType.Instance">
+            <summary>
+            单实例
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.LeafDataType">
+            <summary>
+            叶子节点类型
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.LeafDataType.Instance">
+            <summary>
+            单实例
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.ArrayHelper">
+            <summary>
+            数组操作帮助类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.ArrayMerge``1(``0[],``0[])">
+            <summary>
+            合并两个数组
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="array1">数组1</param>
+            <param name="array2">数组2</param>
+            <returns>合并后的数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.ReadAllBytesFromStream(System.IO.Stream)">
+            <summary>
+            从流里读出所有所有的字节数据
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.AddArrayItem``1(``0[],``0)">
+            <summary>
+            将数据项添加到数组中去
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="array">数组</param>
+            <param name="item">要添加的数据项</param>
+            <returns>处理后的数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.RemoveArrayItem``1(``0[],``0)">
+            <summary>
+            删除数组中的对应项
+            (不知道删除后的数组顺序如何)
+            </summary>
+            <typeparam name="T">数组类型</typeparam>
+            <param name="array">数组</param>
+            <param name="item">要删除的数据项</param>
+            <returns>处理后的数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.Contains``1(``0[],``0)">
+            <summary>
+            检查数组中是否包含该项
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="array"></param>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ArrayHelper.RemoveDuplicates(System.String[])">
+            <summary>
+            去除重复
+            </summary>
+            <param name="array"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.HardwareHelper.GetNetworkCardInfo">
+            <summary>
+            获取网卡信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.Mapping.MappingHelper">
+            <summary>
+            映射运行时帮助类
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.LoadType(System.String)">
+            <summary>
+            根据类型名称获取
+            </summary>
+            <param name="typeName">格式：类名,程序集名  示例：ZLSoft.MSP.DataAccess.LocalUserDbOfSqlite, zlmipCommon</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.LoadTypeFromAssembly(System.String,System.String)">
+            <summary>
+            根据类型名称获取（不建议使用）
+            </summary>
+            <param name="assemblyFile"></param>
+            <param name="className"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.AddXmlDeclaration(System.Xml.XmlDocument)">
+            <summary>
+            添加XML的声明段落 
+            </summary>
+            <param name="xmlDoc"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.GetXmlAttributeText(System.Xml.XmlNode,System.String)">
+            <summary>
+            获取属性的值
+            如果节点不存在，返回null
+            </summary>
+            <param name="root"></param>
+            <param name="attName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.AddXmlAttribute(System.Xml.XmlNode,System.Xml.XmlDocument,System.String,System.String)">
+            <summary>
+            添加属性
+            </summary>
+            <param name="node"></param>
+            <param name="doc"></param>
+            <param name="attName"></param>
+            <param name="attValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.AddXmlAttribute(System.Xml.XmlNode,System.Xml.XmlDocument,System.String,System.Int32)">
+            <summary>
+            添加属性
+            </summary>
+            <param name="node"></param>
+            <param name="doc"></param>
+            <param name="attName"></param>
+            <param name="attValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.AddXmlElement(System.Xml.XmlNode,System.Xml.XmlDocument,System.String,System.String)">
+            <summary>
+            添加节点
+            </summary>
+            <param name="root"></param>
+            <param name="doc"></param>
+            <param name="nodeName"></param>
+            <param name="nodeValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.AddXmlElement(System.Xml.XmlNode,System.Xml.XmlDocument,System.String)">
+            <summary>
+            添加节点
+            </summary>
+            <param name="root"></param>
+            <param name="doc"></param>
+            <param name="nodeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.GetTestXml(ZLBase.SharedLibrary.Schema.XmlContentModel,System.String)">
+            <summary>
+            生成测试用的XML实例
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.CreateElement(System.Xml.XmlDocument,ZLBase.SharedLibrary.Schema.XmlContentModelNode,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            创建XML环节
+            </summary>
+            <param name="doc"></param>
+            <param name="modelNode"></param>
+            <param name="nameSpaceBymxsl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingHelper.CreateAttribute(System.Xml.XmlDocument,ZLBase.SharedLibrary.Schema.XmlContentModelNode,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            创建XML属性
+            </summary>
+            <param name="doc"></param>
+            <param name="modelNode"></param>
+            <param name="nameSpaceBymxsl"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.SqliteHelper">
+            <summary>
+            Sqlite使用帮助类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.GetConnection(System.String)">
+            <summary>
+            获取连接对象
+            </summary>
+            <param name="databaseFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteNonQuery(System.String,System.String,System.Object[])">
+            <summary>
+            ExecuteNonQuery
+            </summary>
+            <param name="databaseFile"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteNonQuery(System.Data.SQLite.SQLiteConnection,System.String,System.Object[])">
+            <summary>
+            ExecuteNonQuery
+            </summary>
+            <param name="conn"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteScalar(System.String,System.String,System.Object[])">
+            <summary>
+            ExecuteScalar
+            </summary>
+            <param name="databaseFile"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteScalar(System.Data.SQLite.SQLiteConnection,System.String,System.Object[])">
+            <summary>
+            ExecuteScalar
+            </summary>
+            <param name="conn"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteDataTable(System.String,System.String,System.Object[])">
+            <summary>
+            ExecuteDataTable
+            </summary>
+            <param name="databaseFile"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteDataTable(System.Data.SQLite.SQLiteConnection,System.String,System.Object[])">
+            <summary>
+            ExecuteDataTable
+            </summary>
+            <param name="conn"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteReader(System.String,System.String,System.Object[])">
+            <summary>
+            执行查询sql返回reader
+            </summary>
+            <param name="databaseFile"></param>
+            <param name="cmdText"></param>
+            <param name="commandParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SqliteHelper.ExecuteReader(System.Data.SQLite.SQLiteConnection,System.String,System.Object[])">
+            <summary>
+            执行查询sql返回reader
+            </summary>
+            <param name="conn"></param>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.SchemaHelper">
+            <summary>
+            Xml Schema 校验器
+            </summary>
+             Copyright (c) 2013-2018 中联信息产业公司
+             创 建 人：范俊
+             创建日期：2013-07-10 14:37
+             修 改 人：向中燕
+             修改内容：完善格式校验方法、增加获取引用文件的方法
+        </member>
+        <member name="F:ZLBase.SharedLibrary.Utility.SchemaHelper.s_validationErrMsg">
+            <summary>
+            用于传递校验时的错误详细信息
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.NewSchemaSet(System.String)">
+            <summary>
+            创建并编译文档集，包括主文档及其所有引用的文档。
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.NewSchemaSet(System.Xml.Schema.XmlSchema)">
+            <summary>
+            创建并编译文档集
+            </summary>
+            <param name="schema"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.NewSchema(System.String)">
+            <summary>
+            创建一个未编译的XmlSchema对象
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.NewSchemaByXml(System.String)">
+            <summary>
+            创建一个未编译的XmlSchema对象
+            </summary>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.Validate(System.String,System.String,System.String@)">
+            <summary>
+            对XMLSchema校验
+            </summary>
+            <param name="xml"></param>
+            <param name="schemaXml"></param>
+            <param name="errMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.Validate(System.String,System.Xml.Schema.XmlSchemaSet)">
+            <summary>
+            Schema校验
+            </summary>
+            <param name="xml"></param>
+            <param name="schemaSet"></param>
+            <param name="errMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.Validate(System.String,System.Xml.Schema.XmlSchemaSet,System.String@)">
+            <summary>
+            Schema校验
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.ValidationHandler_NotException(System.Object,System.Xml.Schema.ValidationEventArgs)">
+            <summary>
+            处理 XML Schema 校验的警告和错误
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.GetRefFilePath(System.String,System.Boolean)">
+            <summary>
+            查找一个schema文件的引用文件，不包含间接引用的文件。文件不合法时，不引发异常，返回空集合。
+            </summary>
+            <param name="xsdFilePath">主文件的绝对路径</param>
+            <param name="isAbsolute">返回值是否转换为绝对路径，否则返回schemaLocation标记原始值。</param>
+            <returns>引用文件的路径</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.GetAllRefFilePath(System.String,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            查找一个schema文件所有引用文件的绝对路径，包括间接引用的文件。循环引用不抛出异常。
+            </summary>
+            <param name="xsdFilePath">主文件的绝对路径</param>
+            <param name="fileList">输出所有引用文件的绝对路径。查找多个文件的引用文件时，注意使用同一个fileList集合，避免对基文件的重复解析。</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SchemaHelper.GetAllRefFilePath(System.Collections.Generic.List{System.String})">
+            <summary>
+            根据一组源文件绝对路径，获取所有引用文件的绝对路径。返回的引用文件路径集合，不包含在输入参数集合中已存在的值。
+            </summary>
+            <param name="sourceFileList">源文件绝对路径集合</param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.SchemaHelper.ValidationFlags">
+            <summary>
+            ValidationFlags说明
+              ReportValidationWarnings: 指示对象模型是否报告验证过程中发现的警告信息
+                  例如，没有找到和xml实例匹配的架构文件时，返回警告信息。如果该选项为false，那么不会返回任何信息（会导致认为校验通过）。
+              ProcessIdentityConstraints: 指示是否验证标识约束 xs:ID、xs:IDREF、xs:key、xs:keyref、xs:unique
+                  如果该选项为false，元素/属性值不符合约束时就不会返回错误信息。即忽略标识约束。
+              AllowXmlAttributes: (暂未弄清楚)
+              ProcessInlineSchema: (SchemaHelper不应支持) 是否验证xml实例中的内联架构      
+              ProcessSchemaLocation: (SchemaHelper不应支持) 指示校验对象自动加载xml文档根节点上的属性“xsi:schemaLocation、xsi:noNamespaceSchemaLocation”指向的架构文件进行验证
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.MappingFunctionManage">
+            <summary>
+            映射函数管理类
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.AddPublicArguments(System.Xml.Xsl.XsltArgumentList)">
+            <summary>
+            添加公共映射对象
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.GetDataTypeByID(System.String)">
+            <summary>
+            根据ID获取对象类型
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.ContainsNamespace(System.String)">
+            <summary>
+            判断公用映射是否存在
+            </summary>
+            <param name="nosNamespace"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.LoadFunction">
+            <summary>
+            加载函数
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.UpdataFunctionFile">
+            <summary>
+            从配置文件读取函数
+            </summary>
+            <returns>错误信息</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.LoadDateType(System.Xml.XmlNode,System.Xml.XmlNodeList)">
+            <summary>
+            加载数据类型
+            </summary>
+            <param name="assemblyNode"></param>
+            <param name="dataTypeNodes"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.LoadFunction(System.Collections.Generic.List{System.String},System.Xml.XmlNode,System.Xml.XmlNodeList)">
+            <summary>
+            加载函数
+            </summary>
+            <param name="str"></param>
+            <param name="assemblyNode"></param>
+            <param name="classNameNodes"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappingFunctionManage.GetObjectByClassName(System.String,System.String)">
+            <summary>
+            通过类名称获取对象
+            </summary>
+            <param name="assemblyName"></param>
+            <param name="className"></param>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionManage.Function">
+            <summary>
+            获取当前业务流程的所有函数
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappingFunctionManage.PublicArgumentList">
+            <summary>
+            公共映射对象
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Interface.ILoggerFactory">
+            <summary>
+            日志工厂接口
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Interface.ILoggerFactory.CreateLogger``1(System.String)">
+            <summary>
+            创建一个日志记录者
+            </summary>
+            <typeparam name="T">日志记录者类型</typeparam>
+            <param name="loggingPath">日志记录路径</param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.SerializeHelper">
+            <summary>
+            序列化/反序列化工具类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.Serialize(System.Object)">
+            <summary>
+            对象序列化
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.Deserialize(System.Byte[])">
+            <summary>
+            对象反序列化
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.Deserialize(System.Byte[],System.Runtime.Serialization.SerializationBinder)">
+            <summary>
+            对象反序列化
+            </summary>
+            <param name="data"></param>
+            <param name="binder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.BinarySerialize``1(``0)">
+            <summary>
+            序列化
+            </summary>
+            <param name="obj">类型实例</param>
+            <returns>字节数组</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.BinaryDeserialize``1(System.Byte[])">
+            <summary>
+            反序列化
+            </summary>
+            <param name="data">字节数组</param>
+            <returns>类型实例</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.BinaryDeserialize``1(System.Byte[],System.Runtime.Serialization.SerializationBinder)">
+            <summary>
+            反序列化
+            </summary>
+            <param name="data">字节数组</param>
+            <param name="binder"></param>
+            <returns>类型实例</returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.SerializeToBase64(System.Object)">
+            <summary>
+            序列化后转为Base64编码的字符串
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.DeserializeFromBase64(System.String)">
+            <summary>
+            转Base64编码后序列化
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.DeserializeFromBase64(System.String,System.Runtime.Serialization.SerializationBinder)">
+            <summary>
+            转Base64编码后序列化
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.SerializeToXML(System.Object)">
+            <summary>
+            对象XML序列化
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.DeserializeFromXML(System.Type,System.String)">
+            <summary>
+            对象XML反序列化
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.DeserializeFromXML``1(System.String)">
+            <summary>
+            对象XML反序列化
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.ComputeHash_SHA256(System.String)">
+            <summary>
+            计算文件哈希值
+            </summary>
+            <param name="filePath">文件全路径</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.SerializeHelper.ComputeHash_SHA256(System.IO.FileStream)">
+            <summary>
+            计算文件哈希值
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.ShortcutHelper">
+            <summary>
+            快捷码帮助类
+            </summary>
+             创 建 人：范俊
+             创建日期：2010-12-16
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ShortcutHelper.GetWordPinyiCode(System.String)">
+            <summary>
+            获取拼音简码
+            </summary>
+            <param name="word">字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ShortcutHelper.GetWordWubiCode(System.String)">
+            <summary>
+            获取五笔简码
+            </summary>
+            <param name="word">字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.ShortcutHelper.GetReplaceCharacter(System.Char,System.Char@)">
+            <summary>
+            特换其他字符
+            </summary>
+            <param name="val">待处理字符</param>
+            <param name="rVal">替换后的字符</param>
+            <returns>是否为有效字符</returns>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.ShortcutHelper.ChineseFirstPY">
+            <summary>
+             汉字拼音首字母
+             字符的Unicode编码为19968~40869,共20902个汉字
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Utility.ShortcutHelper.ChineseFirstWB">
+            <summary>
+             汉字五笔首字母(其中14109个无值)
+             字符的Unicode编码为19968~40869,共20902个汉字
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Utility.CompressHelper">
+            <summary>
+            数据流压缩类
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.CompressHelper.Compress(System.Byte[],System.Int32)">
+            <summary>
+            压缩数据流
+            假如压缩了数据流，则在数据流最前面一位置1，否则置0
+            </summary>
+            <param name="data"></param>
+            <param name="overSize">压缩阙值,设置为-1不压缩,传入的data的长度大于overSize才压缩</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.CompressHelper.Compress(System.Byte[])">
+            <summary>
+            压缩数据
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Utility.CompressHelper.Decompress(System.Byte[])">
+            <summary>
+            解压缩数据流
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.Schema.XmlContentModelNode">
+            <summary>
+            XML内容模型节点类，参见文档《内容模型结构图》。
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModelNode.#ctor(System.Xml.Schema.XmlSchemaObject,ZLBase.SharedLibrary.Schema.XmlContentModelNode,ZLBase.SharedLibrary.Schema.XmlContentModel)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="xmlSchemaObject">XML内容模型节点映射的XmlSchemaObject实例</param>
+            <param name="parentModeNode">XML内容模型节点的父节点，null表示这是一个根节点。</param>
+            <param name="contentModel">节点所属的内容模型对象</param>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModelNode.GetSubstitutionElement">
+            <summary>
+            获取可替换的根元素
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModelNode.GetXmlSchema(System.Xml.Schema.XmlSchemaObject)">
+            <summary>
+            获取指定XmlSchemaObject实例所属的XmlSchema架构对象
+            </summary>
+        </member>
+        <member name="M:ZLBase.SharedLibrary.Schema.XmlContentModelNode.CheckClosedLoop">
+            <summary>
+            检查当前元素节点是否循环引用点，注意：元素标记有循环引用时，可能是死循环，也可能不是。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.SchemaObject">
+            <summary>
+            映射的schema对象模型节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.ParentNode">
+            <summary>
+            父节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.RootNode">
+            <summary>
+            根节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.ChildNodes">
+            <summary>
+            所有子节点集合，首次访问时解析。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.ChildElements">
+            <summary>
+            忽略上下级元素之间的order节点，获取所有子元素及any子节点。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.ChildAttributes">
+            <summary>
+            获取属性子节点和AnyAttribute子节点
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.UpNodes">
+            <summary>
+            所有上级节点，从父节点到根节点排列。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.MarkID">
+            <summary>
+            schema标记的全局唯一标识：[内容模型对象ID]_[标记所属schema的索引号]_[标记行序号]_[标记列序号]。
+            注意：一个标记可以映射到多个模型节点。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.DisplayName">
+            <summary>
+            节点的显示名称。元素/属性不包含命名空间前缀，其它节点显示标记名称。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.QualifiedName">
+            <summary>
+            获取限定名对象
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.QualifiedNameStr">
+            <summary>
+            获取元素/属性的限定名称(包含命名空间前缀)
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.IsAbstractElement">
+            <summary>
+            是否抽象元素
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.MinOccurs">
+            <summary>
+            如果当前实例表示any引用的元素/替换元素应从该属性获取节点最小次数，不要直接从SchemaObject的属性获取。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.MaxOccurs">
+            <summary>
+            如果当前实例表示any引用的元素/替换元素应从该属性获取节点最大次数，不要直接从SchemaObject的属性获取。
+            decimal.MaxValue表示无穷大。
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.ContentModel">
+            <summary>
+            节点所属的内容模型对象
+            </summary>
+        </member>
+        <member name="P:ZLBase.SharedLibrary.Schema.XmlContentModelNode.Schema">
+            <summary>
+            节点所属的Schema文档对象
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.DragFunction">
+            <summary>
+            函数设计信息存储
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.DragFunction.#ctor(System.String)">
+            <summary>
+            指定函数名称，用于内置函数
+            </summary>
+            <param name="mappFunction"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.DragFunction.#ctor(System.String,System.String)">
+            <summary>
+            指定命名空间和函数名称
+            </summary>
+            <param name="className"></param>
+            <param name="assemblyName"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.DragFunction.GetFunction">
+            <summary>
+            获取当前的函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.DragFunction.FunctionName">
+            <summary>
+            函数名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.DragFunction.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.DragFunction.AssemblyName">
+            <summary>
+            程序集名称
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.ScriptType">
+            <summary>
+            脚本类型
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.ParameterType">
+            <summary>
+            参数类型
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.GetValueType">
+            <summary>
+            获取值得类型
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.RelationType">
+            <summary>
+            关系类型
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.IMappingWorkPart">
+            <summary>
+            运行部件
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.IMappingWorkPart.IsUseable(System.String@)">
+            <summary>
+            是否可用
+            </summary>
+            <param name="errMsg">不可用时的错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.IMappingWorkPart.Start">
+            <summary>
+            启用（仅当NeedStart为true时有用）
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.IMappingWorkPart.Close">
+            <summary>
+            关闭（仅当NeedStart为true时有用）
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.TypeID">
+            <summary>
+            类型码
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.TypeName">
+            <summary>
+            类型名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.IsDirectRef">
+            <summary>
+            是否直接被流程引用（如果是,则表示导出流程时也会关联导出对应基础资源）
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.NeedStart">
+            <summary>
+            是否需要启动
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.IsStarted">
+            <summary>
+            是否已经启动（仅当NeedStart为true时有用）
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.IMappingWorkPart.SubItems">
+            <summary>
+            子部件
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.MappWorkPartBase">
+            <summary>
+            运行部件基类
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappWorkPartBase.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.MappWorkPartBase.IsUseable(System.String@)">
+            <summary>
+            是否可用
+            </summary>
+            <param name="errMsg">不可用时的错误信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.MappWorkPartBase.Start">
+            <summary>
+            启用（无效果）
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.MappWorkPartBase.Close">
+            <summary>
+            停用（无效果）
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.TypeID">
+            <summary>
+            类型ID
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.TypeName">
+            <summary>
+            类型名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.IsDirectRef">
+            <summary>
+            是否直接被引用
+            作用：是否加入flow_ref表中的记录
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.NeedStart">
+            <summary>
+            是否需要独立启动
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.IsStarted">
+            <summary>
+            是否已经启动（无效果）
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.MappWorkPartBase.SubItems">
+            <summary>
+            从属依赖项
+            </summary>
+        </member>
+        <member name="T:ZLBase.SharedLibrary.BaseConst">
+            <summary>
+            基础常量
+            </summary>
+        </member>
+        <member name="F:ZLBase.SharedLibrary.BaseConst.DESKEY">
+            <summary>
+            Key值
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.ExtensionObjectInfo">
+            <summary>
+            外部dll调用信息
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionObjectInfo.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="className">格式：类名,程序集名  示例：Test.SendSms,sendSms</param>
+            <param name="method">调用的方法</param>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionObjectInfo.#ctor(System.String)">
+            <summary>
+            用于自定义xslt
+            </summary>
+            <param name="className">格式：类名,程序集名  示例：Test.SendSms,sendSms</param>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionObjectInfo.SetNamespace(System.String)">
+            <summary>
+            设置命名空间
+            </summary>
+            <param name="nos"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionObjectInfo.IsValid(System.String@)">
+            <summary>
+            配置是否合法
+            </summary>
+            <param name="errMsg">不合法时的错误信息</param>
+            <returns>是否合法</returns>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionObjectInfo.GetAssemblyInstance">
+            <summary>
+            获取扩展信息实例
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionObjectInfo.Nosnamespace">
+            <summary>
+            命名空间(默认，可能重复)
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionObjectInfo.ClearDataName">
+            <summary>
+            清除对象包含数据的方法名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionObjectInfo.ForeachArray">
+            <summary>
+            获取循环集合的方法名称
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionObjectInfo.Method">
+            <summary>
+            调用的方法
+            </summary>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionObjectInfo.ClassName">
+            <summary>
+            类名称，包含命名空间
+            </summary>
+        </member>
+        <member name="T:ZLBase.Mapping.ExtensionCollection">
+            <summary>
+            扩展对象集合
+            </summary>
+        </member>
+        <member name="F:ZLBase.Mapping.ExtensionCollection.m_extensions">
+            <summary>
+            扩展对象
+            [命名空间，对象信息]
+            </summary>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.LoadXML(System.String)">
+            <summary>
+            从XML加载
+            </summary>
+            <param name="root"></param>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.ExtensionNamespace(System.String)">
+            <summary>
+            获取指定命名空间的扩展对象，如果没有则返回null
+            </summary>
+            <param name="nos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.GetExtensionInfo">
+            <summary>
+            获取扩展信息集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.ToXML">
+            <summary>
+            导出XML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.Add(ZLBase.Mapping.ExtensionObjectInfo)">
+            <summary>
+            添加扩展对象
+            </summary>
+            <param name="extension"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZLBase.Mapping.ExtensionCollection.GetXsltArgumentList">
+            <summary>
+            获取映射可用扩展信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:ZLBase.Mapping.ExtensionCollection.ExistsExtesion">
+            <summary>
+            是否存在扩展信息
+            </summary>
+        </member>
+    </members>
+</doc>
