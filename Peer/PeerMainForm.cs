@@ -146,6 +146,8 @@ namespace FanJun.P2PSample.Peer
                 m_udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 m_udpSocket.SendTo(bytesMsg, serverPoint);
 
+                AppendTextLine("[本地UDP]" + m_udpSocket.LocalEndPoint.ToString());
+
                 IPEndPoint targetPoint;
                 EndPoint tIep = new IPEndPoint(IPAddress.Any, 0) as EndPoint;
                 byte[] buffer = new byte[100];
@@ -153,6 +155,7 @@ namespace FanJun.P2PSample.Peer
                 string[] tMsg = Encoding.UTF8.GetString(buffer, 4, buffer.Length - 4).Split('/');
                 targetPoint = new IPEndPoint(IPAddress.Parse(tMsg[0]), Convert.ToInt32(tMsg[1]));
 
+                AppendTextLine("尝试开启P2P连接-UDP:" + targetPoint.ToString());
                 UdpSocket udp = new UdpSocket(m_udpSocket, targetPoint, false);
                 if (udp.Initialize())
                 {
