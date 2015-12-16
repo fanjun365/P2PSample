@@ -1,6 +1,6 @@
 ﻿namespace FanJun.P2PSample.Peer
 {
-    partial class MainForm
+    partial class PeerMainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -33,6 +33,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rtbReceived = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rdoUDP = new System.Windows.Forms.RadioButton();
+            this.rdoTCP = new System.Windows.Forms.RadioButton();
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -51,8 +53,7 @@
             // 
             this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Enabled = false;
-            this.btnSend.Location = new System.Drawing.Point(403, 78);
+            this.btnSend.Location = new System.Drawing.Point(501, 78);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(55, 305);
             this.btnSend.TabIndex = 0;
@@ -65,7 +66,7 @@
             this.rtbSend.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbSend.Location = new System.Drawing.Point(0, 0);
             this.rtbSend.Name = "rtbSend";
-            this.rtbSend.Size = new System.Drawing.Size(385, 26);
+            this.rtbSend.Size = new System.Drawing.Size(483, 63);
             this.rtbSend.TabIndex = 1;
             this.rtbSend.Text = "";
             // 
@@ -86,8 +87,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.rtbSend);
-            this.splitContainer1.Size = new System.Drawing.Size(385, 305);
-            this.splitContainer1.SplitterDistance = 275;
+            this.splitContainer1.Size = new System.Drawing.Size(483, 305);
+            this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
             // 
             // rtbReceived
@@ -96,12 +97,14 @@
             this.rtbReceived.Location = new System.Drawing.Point(0, 0);
             this.rtbReceived.Name = "rtbReceived";
             this.rtbReceived.ReadOnly = true;
-            this.rtbReceived.Size = new System.Drawing.Size(385, 275);
+            this.rtbReceived.Size = new System.Drawing.Size(483, 238);
             this.rtbReceived.TabIndex = 2;
             this.rtbReceived.Text = "";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rdoUDP);
+            this.groupBox1.Controls.Add(this.rdoTCP);
             this.groupBox1.Controls.Add(this.btnCheck);
             this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.btnLogin);
@@ -112,15 +115,37 @@
             this.groupBox1.Controls.Add(this.txtUser);
             this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(446, 69);
+            this.groupBox1.Size = new System.Drawing.Size(544, 69);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
+            // rdoUDP
+            // 
+            this.rdoUDP.AutoSize = true;
+            this.rdoUDP.Location = new System.Drawing.Point(408, 41);
+            this.rdoUDP.Name = "rdoUDP";
+            this.rdoUDP.Size = new System.Drawing.Size(41, 16);
+            this.rdoUDP.TabIndex = 3;
+            this.rdoUDP.Text = "UDP";
+            this.rdoUDP.UseVisualStyleBackColor = true;
+            // 
+            // rdoTCP
+            // 
+            this.rdoTCP.AutoSize = true;
+            this.rdoTCP.Checked = true;
+            this.rdoTCP.Location = new System.Drawing.Point(408, 19);
+            this.rdoTCP.Name = "rdoTCP";
+            this.rdoTCP.Size = new System.Drawing.Size(41, 16);
+            this.rdoTCP.TabIndex = 3;
+            this.rdoTCP.TabStop = true;
+            this.rdoTCP.Text = "TCP";
+            this.rdoTCP.UseVisualStyleBackColor = true;
+            // 
             // btnCheck
             // 
-            this.btnCheck.Location = new System.Drawing.Point(391, 15);
+            this.btnCheck.Location = new System.Drawing.Point(489, 15);
             this.btnCheck.Name = "btnCheck";
-            this.btnCheck.Size = new System.Drawing.Size(55, 48);
+            this.btnCheck.Size = new System.Drawing.Size(55, 46);
             this.btnCheck.TabIndex = 2;
             this.btnCheck.Text = "Check";
             this.btnCheck.UseVisualStyleBackColor = true;
@@ -134,7 +159,7 @@
             this.btnConnect.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.btnConnect.Location = new System.Drawing.Point(273, 15);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(112, 46);
+            this.btnConnect.Size = new System.Drawing.Size(129, 46);
             this.btnConnect.TabIndex = 1;
             this.btnConnect.Text = "&Connect";
             this.btnConnect.UseVisualStyleBackColor = false;
@@ -199,15 +224,15 @@
             this.txtUser.TabIndex = 0;
             this.txtUser.Text = "u01";
             // 
-            // MainForm
+            // PeerMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 395);
+            this.ClientSize = new System.Drawing.Size(568, 395);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnSend);
-            this.Name = "MainForm";
+            this.Name = "PeerMainForm";
             this.Text = "Peer";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -233,6 +258,8 @@
         private System.Windows.Forms.TextBox txtServerAddress;
         private System.Windows.Forms.TextBox txtServerMinorPort;
         private System.Windows.Forms.Button btnCheck;
+        private System.Windows.Forms.RadioButton rdoTCP;
+        private System.Windows.Forms.RadioButton rdoUDP;
     }
 }
 

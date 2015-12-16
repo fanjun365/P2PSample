@@ -1,6 +1,6 @@
 ﻿namespace FanJun.P2PSample.Server
 {
-    partial class MainForm
+    partial class ServerMainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -37,6 +37,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtPrimaryPort = new System.Windows.Forms.TextBox();
             this.txtMinorPort = new System.Windows.Forms.TextBox();
+            this.rdoUDP = new System.Windows.Forms.RadioButton();
+            this.rdoTCP = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +83,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.rdoUDP);
+            this.groupBox1.Controls.Add(this.rdoTCP);
             this.groupBox1.Controls.Add(this.btnStart);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -94,7 +98,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(165, 15);
+            this.btnStart.Location = new System.Drawing.Point(258, 16);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 50);
             this.btnStart.TabIndex = 7;
@@ -135,6 +139,27 @@
             this.txtMinorPort.TabIndex = 4;
             this.txtMinorPort.Text = "6665";
             // 
+            // rdoUDP
+            // 
+            this.rdoUDP.AutoSize = true;
+            this.rdoUDP.Location = new System.Drawing.Point(211, 44);
+            this.rdoUDP.Name = "rdoUDP";
+            this.rdoUDP.Size = new System.Drawing.Size(41, 16);
+            this.rdoUDP.TabIndex = 8;
+            this.rdoUDP.Text = "UDP";
+            this.rdoUDP.UseVisualStyleBackColor = true;
+            // 
+            // rdoTCP
+            // 
+            this.rdoTCP.AutoSize = true;
+            this.rdoTCP.Checked = true;
+            this.rdoTCP.Location = new System.Drawing.Point(164, 44);
+            this.rdoTCP.Name = "rdoTCP";
+            this.rdoTCP.Size = new System.Drawing.Size(41, 16);
+            this.rdoTCP.TabIndex = 9;
+            this.rdoTCP.Text = "TCP";
+            this.rdoTCP.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -164,6 +189,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPrimaryPort;
         private System.Windows.Forms.TextBox txtMinorPort;
+        private System.Windows.Forms.RadioButton rdoUDP;
+        private System.Windows.Forms.RadioButton rdoTCP;
     }
 }
 

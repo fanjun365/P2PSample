@@ -14,7 +14,7 @@ namespace FanJun.P2PSample.Peer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new PeerMainForm());
             //Application.Run(new PeerForm());
         }
     }

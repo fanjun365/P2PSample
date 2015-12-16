@@ -16,7 +16,7 @@ namespace FanJun.P2PSample.Server
             Application.SetCompatibleTextRenderingDefault(false);
 
             ZLBase.Communicate.CommunicateBaseContext.LoggerFactory = new Log4NetLoggerFactory();
-            Application.Run(new MainForm());
+            Application.Run(new ServerMainForm());
             //Application.Run(new ServerForm());
         }
     }

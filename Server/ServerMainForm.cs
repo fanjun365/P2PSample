@@ -12,12 +12,12 @@ using System.Windows.Forms;
 
 namespace FanJun.P2PSample.Server
 {
-    public partial class MainForm : Form
+    public partial class ServerMainForm : Form
     {
         private ZLBase.Communicate.ServerApplication m_app_primary = null;
         private ZLBase.Communicate.ServerApplication m_app_minor = null;
 
-        public MainForm()
+        public ServerMainForm()
         {
             InitializeComponent();
 
@@ -53,9 +53,16 @@ namespace FanJun.P2PSample.Server
                 //handler.ServiceContainer.RegistService<Interface.IMyService1>(new Service.MyService());
                 m_app_primary.Start(portPrimary, handler);
 
-                if (m_app_minor == null)
-                    m_app_minor = ZLBase.Communicate.ServerApplication.New(false, "Minor", dirData);
-                m_app_minor.Start(portMinor, new TcpCrossCommandHandler(this.AppendTextLine, m_app_primary));
+                if (this.rdoTCP.Checked)
+                {
+                    if (m_app_minor == null)
+                        m_app_minor = ZLBase.Communicate.ServerApplication.New(false, "Minor", dirData);
+                    m_app_minor.Start(portMinor, new TcpCrossCommandHandler(this.AppendTextLine, m_app_primary));
+                }
+                else
+                {
+                    StartUdpServer(portMinor);
+                }
             }
             catch (Exception ex)
             {
@@ -78,6 +85,147 @@ namespace FanJun.P2PSample.Server
                 "CONNECT_SUCCEED|" + mp.Key);
         }
 
+
+
+
+        #region UDP Server
+
+        private Socket m_udpSocket = null;
+        private Thread m_udpReceiveThread = null;
+
+        private void StartUdpServer(int port)
+        {
+            m_udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            IPAddress address = this.GetLocalIP();
+            if (address == null)
+                throw new Exception("获取本地IP失败");
+
+            IPEndPoint point = new IPEndPoint(address, port);
+            m_udpSocket.Bind(point);
+
+            m_udpReceiveThread = new Thread(UDPReceive);
+            m_udpReceiveThread.Name = "UdpReceiveThread";
+            m_udpReceiveThread.IsBackground = true;
+
+            m_udpReceiveThread.Start();
+            AppendTextLine("协助监听UDP: " + point.ToString());
+        }
+
+        /// <summary>
+        /// 接收UDP发送的数据
+        /// </summary>
+        private void UDPReceive()
+        {
+            while (m_udpSocket != null)
+            {
+                try
+                {
+                    byte[] buf = new byte[100];
+                    EndPoint iep = new IPEndPoint(IPAddress.Any, 0);
+                    m_udpSocket.ReceiveFrom(buf, ref iep);
+
+                    object[] arg = new object[2];
+                    arg[0] = buf;
+                    arg[1] = iep;
+                    object obj = arg;
+
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ResolveUdpMsg), obj);
+                }
+                catch (Exception ex)
+                {
+                    AppendTextLine("接收UDP信息异常: " + ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 接收并解析UDP消息，
+        /// 在ClientList中进行匹配
+        /// </summary>
+        /// <param name="buffer"></param>
+        private void ResolveUdpMsg(object obj)
+        {
+            object[] arg = (object[])obj;
+            byte[] buffer = (byte[])arg[0];
+            IPEndPoint iepRemote = arg[1] as IPEndPoint;
+            if (CheckUdpReceive(buffer) == false)
+            {
+                return;
+            }
+            string strInfo = Encoding.UTF8.GetString(buffer, 4, 39);
+            string[] infos = strInfo.Split('|');
+            P2PMatchPair mp = P2PMatchManager.Get(infos[0]);
+            if (infos[1] == "PEER_A")
+            {
+                mp.SetSourceInfo(infos[1], "", 0, iepRemote.Address.ToString(), iepRemote.Port);
+            }
+            else
+            {
+                mp.SetTargetInfo(infos[1], "", 0, iepRemote.Address.ToString(), iepRemote.Port);
+            }
+
+            if (mp.IsMatched)
+            {
+                //相互通知。
+                InformIPEndPointUdp(mp.SourceRemoteAddress, mp.SourceRemotePort, 
+                    new IPEndPoint(IPAddress.Parse(mp.TargetRemoteAddress), mp.TargetRemotePort));
+                InformIPEndPointUdp(mp.TargetRemoteAddress, mp.TargetRemotePort,
+                    new IPEndPoint(IPAddress.Parse(mp.SourceRemoteAddress), mp.SourceRemotePort));
+            }
+        }
+
+        private byte[] acceptMsgUdp = new byte[] { 255, 255, 255, 166 };
+        private void InformIPEndPointUdp(string sourceAddress, int sourcePort, IPEndPoint target)
+        {
+            string msg = sourceAddress + "/" + sourcePort + "/";
+            byte[] tMsg = Encoding.UTF8.GetBytes(msg);
+            byte[] iepMsg = new byte[tMsg.Length + 4];
+            //标识  255, 255, 255, 166
+            iepMsg[0] = acceptMsgUdp[0];
+            iepMsg[1] = acceptMsgUdp[1];
+            iepMsg[2] = acceptMsgUdp[2];
+            iepMsg[3] = acceptMsgUdp[3];
+            //IEP信息
+            for (int i = 0; i < tMsg.Length; i++)
+            {
+                iepMsg[4 + i] = tMsg[i];
+            }
+
+            try
+            {
+                m_udpSocket.SendTo(iepMsg, target);
+            }
+            catch (Exception ex)
+            {
+                AppendTextLine("通知对方UPD端口信息异常: " + ex.Message);
+            }
+        }
+
+        private bool CheckUdpReceive(byte[] buffer)
+        {
+            if (buffer.Length < 40 || buffer[0] != 255 || buffer[3] != 166)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+
+        private IPAddress GetLocalIP()
+        {
+            IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
+            for (int i = 0; i < IpEntry.AddressList.Length; i++)
+            {
+                if (IpEntry.AddressList[i].AddressFamily.ToString() == "InterNetwork")
+                {
+                    return IpEntry.AddressList[i];
+                }
+            }
+            return null;
+        }
+
+        #endregion
 
 
 

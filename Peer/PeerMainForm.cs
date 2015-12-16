@@ -14,11 +14,11 @@ using ZLBase.Communicate;
 
 namespace FanJun.P2PSample.Peer
 {
-    public partial class MainForm : Form
+    public partial class PeerMainForm : Form
     {
         private ZLBase.Communicate.CommunicateProxy m_tcpClient;
 
-        public MainForm()
+        public PeerMainForm()
         {
             InitializeComponent();
 
@@ -98,27 +98,98 @@ namespace FanJun.P2PSample.Peer
         
         private void btnSend_Click(object sender, EventArgs e)
         {
-
+            if (this.rdoUDP.Checked && this.m_udpSocket != null)
+            {
+                this.m_udpSocket.SendTo(Encoding.UTF8.GetBytes(this.rtbSend.Text), this.m_udpTargetPoint);
+                this.rtbSend.Clear();
+            }
         }
 
 
         private string m_localAddress;
         private int m_localPort;
 
+        Socket m_udpSocket;
+        EndPoint m_udpTargetPoint;
+        Thread m_udpReceiveThread = null;
+
         private void TryConnServer(string key, string arg1)
         {
-            int portMinor = int.Parse(this.txtServerMinorPort.Text.Trim());
-            string address = this.txtServerAddress.Text.Trim();
-            string user = this.txtUser.Text.Trim();
-            string pwd = this.txtUserPwd.Text.Trim();
+            int serverMinorPort = int.Parse(this.txtServerMinorPort.Text.Trim());
+            string serverAddress = this.txtServerAddress.Text.Trim();
 
-            ZLBase.Communicate.CommunicateProxy tempTcp = new ZLBase.Communicate.CommunicateProxy(address, portMinor, -1);
-            tempTcp.Login(user, pwd, false, true);
-            m_localAddress = tempTcp.LocalIP;
-            m_localPort = int.Parse(tempTcp.LocalPort);
-            AppendTextLine("[打洞连接]{0}:{1}", m_localAddress, m_localPort.ToString());
-            tempTcp.SendMessage(string.Format("{0}|{1}|{2}", key, tempTcp.LocalIP, tempTcp.LocalPort), arg1);
-            //tempTcp.Logout();
+            if (this.rdoTCP.Checked)
+            {
+                string user = this.txtUser.Text.Trim();
+                string pwd = this.txtUserPwd.Text.Trim();
+
+                ZLBase.Communicate.CommunicateProxy tempTcp = new ZLBase.Communicate.CommunicateProxy(serverAddress, serverMinorPort, -1);
+                tempTcp.Login(user, pwd, false, true);
+                m_localAddress = tempTcp.LocalIP;
+                m_localPort = int.Parse(tempTcp.LocalPort);
+                AppendTextLine("[打洞连接]{0}:{1}", m_localAddress, m_localPort.ToString());
+                tempTcp.SendMessage(string.Format("{0}|{1}|{2}", key, tempTcp.LocalIP, tempTcp.LocalPort), arg1);
+                //tempTcp.Logout();
+            }
+            else
+            {
+                byte[] bytesKey = Encoding.UTF8.GetBytes(string.Format("{0}|{1}", key, arg1));
+                byte[] bytesMsg = new byte[4 + bytesKey.Length];
+                bytesMsg[0] = 255;
+                bytesMsg[1] = 255;
+                bytesMsg[2] = 255;
+                bytesMsg[3] = 166;
+                for (int i = 0; i < bytesKey.Length; i++)
+                    bytesMsg[4 + i] = bytesKey[i];
+
+                IPEndPoint serverPoint = new IPEndPoint(IPAddress.Parse(serverAddress), serverMinorPort);
+                m_udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                m_udpSocket.SendTo(bytesMsg, serverPoint);
+
+                IPEndPoint targetPoint;
+                EndPoint tIep = new IPEndPoint(IPAddress.Any, 0) as EndPoint;
+                byte[] buffer = new byte[100];
+                m_udpSocket.ReceiveFrom(buffer, ref tIep);
+                string[] tMsg = Encoding.UTF8.GetString(buffer, 4, buffer.Length - 4).Split('/');
+                targetPoint = new IPEndPoint(IPAddress.Parse(tMsg[0]), Convert.ToInt32(tMsg[1]));
+
+                UdpSocket udp = new UdpSocket(m_udpSocket, targetPoint, false);
+                if (udp.Initialize())
+                {
+                    AppendTextLine("P2P连接成功-UDP:" + targetPoint.ToString());
+                    m_udpTargetPoint = targetPoint;
+
+                    m_udpReceiveThread = new Thread(UDPReceive);
+                    m_udpReceiveThread.Name = "UdpReceiveThread";
+                    m_udpReceiveThread.IsBackground = true;
+
+                    m_udpReceiveThread.Start();
+                }
+                else
+                {
+                    AppendTextLine("P2P连接失败-UDP");
+                }
+            }
+        }
+
+        private void UDPReceive()
+        {
+            while (m_udpSocket != null)
+            {
+                try
+                {
+                    byte[] buffer = new byte[1024];
+                    EndPoint iep = new IPEndPoint(IPAddress.Any, 0);
+                    m_udpSocket.ReceiveFrom(buffer, ref iep);
+
+                    AppendTextLine(Encoding.UTF8.GetString(buffer));
+                    AppendTextLine("");
+                }
+                catch (Exception ex)
+                {
+                    AppendTextLine("接收UDP信息异常: " + ex.Message);
+                }
+            }
         }
 
         private void ConnectEndPoint(IPEndPoint localPoint, string address, int port)
@@ -291,7 +362,6 @@ namespace FanJun.P2PSample.Peer
         }
 
         private string[] m_args;
-        private string m_tag;
         private void m_tcpClient_MessageReceived(object sender, CustomEventArgs<object> e)
         {
             string msg = e.Data as string;
@@ -300,7 +370,6 @@ namespace FanJun.P2PSample.Peer
             if (string.IsNullOrEmpty(msg))
                 return;
 
-            IPEndPoint localPoint;
             string[] args = msg.Split('|');
             switch (args[0])
             {
@@ -312,13 +381,19 @@ namespace FanJun.P2PSample.Peer
                     bool isBehindNAT = args[1] == args[3] && args[2] == args[4] ? false : true;
                     AppendTextLine("Target is behind NAT:{0}", isBehindNAT.ToString());
                     m_args = args;
-                    localPoint = new IPEndPoint(IPAddress.Parse(this.m_localAddress), this.m_localPort);
-                    //同一个内网,优先用内网连接
-                    if (this.m_localAddress == args[3])
-                        ConnectEndPoint(localPoint, args[3], int.Parse(args[4]));//RemoteInner
+                    if (this.rdoTCP.Checked)
+                    {
+                        IPEndPoint localPoint = new IPEndPoint(IPAddress.Parse(this.m_localAddress), this.m_localPort);
+                        //同一个内网,优先用内网连接
+                        if (this.m_localAddress == args[3])
+                            ConnectEndPoint(localPoint, args[3], int.Parse(args[4]));//RemoteInner
+                        else
+                            ConnectEndPoint(localPoint, args[1], int.Parse(args[2]));//RemoteOuter
+                    }
                     else
-                        ConnectEndPoint(localPoint, args[1], int.Parse(args[2]));//RemoteOuter
-
+                    {
+                       
+                    }
 
                     //TcpSocket tcps = new TcpSocket(localPoint,
                     //    new IPEndPoint(IPAddress.Parse(args[3]), int.Parse(args[4])),
