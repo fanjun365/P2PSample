@@ -36,9 +36,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPrimaryPort = new System.Windows.Forms.TextBox();
-            this.txtMinorPort = new System.Windows.Forms.TextBox();
-            this.rdoUDP = new System.Windows.Forms.RadioButton();
-            this.rdoTCP = new System.Windows.Forms.RadioButton();
+            this.txtMinorPortTcp = new System.Windows.Forms.TextBox();
+            this.txtMinorPortUdp = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,13 +82,12 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.rdoUDP);
-            this.groupBox1.Controls.Add(this.rdoTCP);
             this.groupBox1.Controls.Add(this.btnStart);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtPrimaryPort);
-            this.groupBox1.Controls.Add(this.txtMinorPort);
+            this.groupBox1.Controls.Add(this.txtMinorPortUdp);
+            this.groupBox1.Controls.Add(this.txtMinorPortTcp);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(660, 75);
@@ -98,9 +96,9 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(258, 16);
+            this.btnStart.Location = new System.Drawing.Point(170, 16);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 50);
+            this.btnStart.Size = new System.Drawing.Size(75, 48);
             this.btnStart.TabIndex = 7;
             this.btnStart.Text = "启动";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -127,40 +125,27 @@
             // 
             this.txtPrimaryPort.Location = new System.Drawing.Point(58, 16);
             this.txtPrimaryPort.Name = "txtPrimaryPort";
-            this.txtPrimaryPort.Size = new System.Drawing.Size(100, 21);
+            this.txtPrimaryPort.Size = new System.Drawing.Size(106, 21);
             this.txtPrimaryPort.TabIndex = 3;
             this.txtPrimaryPort.Text = "6666";
             // 
-            // txtMinorPort
+            // txtMinorPortTcp
             // 
-            this.txtMinorPort.Location = new System.Drawing.Point(58, 43);
-            this.txtMinorPort.Name = "txtMinorPort";
-            this.txtMinorPort.Size = new System.Drawing.Size(100, 21);
-            this.txtMinorPort.TabIndex = 4;
-            this.txtMinorPort.Text = "6665";
+            this.txtMinorPortTcp.Location = new System.Drawing.Point(58, 43);
+            this.txtMinorPortTcp.Name = "txtMinorPortTcp";
+            this.txtMinorPortTcp.Size = new System.Drawing.Size(50, 21);
+            this.txtMinorPortTcp.TabIndex = 4;
+            this.txtMinorPortTcp.Text = "6665";
             // 
-            // rdoUDP
+            // txtMinorPortUdp
             // 
-            this.rdoUDP.AutoSize = true;
-            this.rdoUDP.Location = new System.Drawing.Point(211, 44);
-            this.rdoUDP.Name = "rdoUDP";
-            this.rdoUDP.Size = new System.Drawing.Size(41, 16);
-            this.rdoUDP.TabIndex = 8;
-            this.rdoUDP.Text = "UDP";
-            this.rdoUDP.UseVisualStyleBackColor = true;
+            this.txtMinorPortUdp.Location = new System.Drawing.Point(114, 43);
+            this.txtMinorPortUdp.Name = "txtMinorPortUdp";
+            this.txtMinorPortUdp.Size = new System.Drawing.Size(50, 21);
+            this.txtMinorPortUdp.TabIndex = 4;
+            this.txtMinorPortUdp.Text = "6664";
             // 
-            // rdoTCP
-            // 
-            this.rdoTCP.AutoSize = true;
-            this.rdoTCP.Checked = true;
-            this.rdoTCP.Location = new System.Drawing.Point(164, 44);
-            this.rdoTCP.Name = "rdoTCP";
-            this.rdoTCP.Size = new System.Drawing.Size(41, 16);
-            this.rdoTCP.TabIndex = 9;
-            this.rdoTCP.Text = "TCP";
-            this.rdoTCP.UseVisualStyleBackColor = true;
-            // 
-            // MainForm
+            // ServerMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -169,7 +154,7 @@
             this.Controls.Add(this.chkShowLog);
             this.Controls.Add(this.linkClearLog);
             this.Controls.Add(this.rtbLog);
-            this.Name = "MainForm";
+            this.Name = "ServerMainForm";
             this.Text = "P2P.Server";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -188,9 +173,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPrimaryPort;
-        private System.Windows.Forms.TextBox txtMinorPort;
-        private System.Windows.Forms.RadioButton rdoUDP;
-        private System.Windows.Forms.RadioButton rdoTCP;
+        private System.Windows.Forms.TextBox txtMinorPortTcp;
+        private System.Windows.Forms.TextBox txtMinorPortUdp;
     }
 }
 

@@ -17,6 +17,45 @@ namespace FanJun.P2PSample.Peer
     public partial class PeerMainForm : Form
     {
         private ZLBase.Communicate.CommunicateProxy m_tcpClient;
+        
+        string User
+        {
+            get
+            {
+                string user = "";
+                if (this.txtUser.InvokeRequired)
+                {
+                    this.txtUser.Invoke(new EventHandler(delegate {
+                        user = this.User;
+                    }));
+                }
+                else
+                {
+                    user = this.txtUser.Text.Trim(); 
+                }
+                return user;
+            }
+        }
+        string TargetUser
+        {
+            get
+            {
+                string user = "";
+                if (this.txtTargetUser.InvokeRequired)
+                {
+                    this.txtTargetUser.Invoke(new EventHandler(delegate
+                    {
+                        user = this.TargetUser;
+                    }));
+                }
+                else
+                {
+                    user = this.txtTargetUser.Text.Trim();
+                }
+                return user;
+            }
+        }
+
 
         public PeerMainForm()
         {
@@ -24,6 +63,10 @@ namespace FanJun.P2PSample.Peer
 
             this.txtServerAddress.Text = System.Configuration.ConfigurationManager.AppSettings["ServerAddress"];
             this.txtUser.Text = System.Configuration.ConfigurationManager.AppSettings["User"];
+            this.txtTargetUser.Text = System.Configuration.ConfigurationManager.AppSettings["TargetUser"];
+            this.btnConnect.Enabled = false;
+
+            this.txtUser.TextChanged += txtUser_TextChanged;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -34,7 +77,7 @@ namespace FanJun.P2PSample.Peer
             int portPrimary, portMinor;
             if (!int.TryParse(this.txtServerPrimaryPort.Text.Trim(), out portPrimary))
                 return;
-            if (!int.TryParse(this.txtServerMinorPort.Text.Trim(), out portMinor))
+            if (!int.TryParse(this.txtServerMinorPortTcp.Text.Trim(), out portMinor))
                 return;
 
             //IPAddress[] ma = Dns.GetHostAddresses(address);
@@ -64,7 +107,7 @@ namespace FanJun.P2PSample.Peer
                 this.m_tcpClient.ChangeServer(address, portPrimary);
             }
 
-            string user = this.txtUser.Text.Trim();
+            string user = this.User;
             string pwd = this.txtUserPwd.Text.Trim();
             try
             {
@@ -79,17 +122,20 @@ namespace FanJun.P2PSample.Peer
 
             this.txtServerAddress.Enabled = false;
             this.txtServerPrimaryPort.Enabled = false;
-            this.txtServerMinorPort.Enabled = false;
             this.txtUser.Enabled = false;
             this.txtUserPwd.Enabled = false;
             this.btnLogin.Enabled = false;
+            this.btnConnect.Enabled = true;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            string key = this.m_tcpClient.InvokeSimpleCustomService("ASK_FOR_CONNECT", new string[] { "u01", "u02" });
+            int protocol = this.rdoUDP.Checked ? 2 : 1;
+            string methodName = "ASK_FOR_CONNECT" + (this.rdoUDP.Checked ? "_UDP" : "_TCP");
 
-            TryConnServer(key, "PEER_A");
+            string key = this.m_tcpClient.InvokeSimpleCustomService(methodName, new string[] { this.User, this.TargetUser });
+
+            TryConnServer(key, "PEER_A", protocol);
 
             //this.btnConnect.Enabled = false;
             //this.btnSend.Enabled = true;
@@ -103,6 +149,23 @@ namespace FanJun.P2PSample.Peer
                 this.m_udpSocket.SendTo(Encoding.UTF8.GetBytes(this.rtbSend.Text), this.m_udpTargetPoint);
                 this.rtbSend.Clear();
             }
+            else if (this.rdoTCP.Checked && this.m_p2pSocket != null)
+            {
+                this.m_p2pSocket.Send(Encoding.UTF8.GetBytes(this.rtbSend.Text));
+                this.rtbSend.Clear();
+            }
+        }
+
+        void txtUser_TextChanged(object sender, EventArgs e)
+        {
+            if (this.txtUser.Text.Trim() == this.txtTargetUser.Text.Trim())
+            {
+                string user = System.Configuration.ConfigurationManager.AppSettings["User"];
+                if (this.txtUser.Text.Trim() == user)
+                    this.txtTargetUser.Text = System.Configuration.ConfigurationManager.AppSettings["TargetUser"];
+                else
+                    this.txtTargetUser.Text = user;
+            }
         }
 
 
@@ -113,15 +176,15 @@ namespace FanJun.P2PSample.Peer
         EndPoint m_udpTargetPoint;
         Thread m_udpReceiveThread = null;
 
-        private void TryConnServer(string key, string arg1)
+        private void TryConnServer(string key, string arg1, int protocol)
         {
-            int serverMinorPort = int.Parse(this.txtServerMinorPort.Text.Trim());
             string serverAddress = this.txtServerAddress.Text.Trim();
 
-            if (this.rdoTCP.Checked)
+            if (protocol == 1) //TCP
             {
-                string user = this.txtUser.Text.Trim();
+                string user = this.User;
                 string pwd = this.txtUserPwd.Text.Trim();
+                int serverMinorPort = int.Parse(this.txtServerMinorPortTcp.Text.Trim());
 
                 ZLBase.Communicate.CommunicateProxy tempTcp = new ZLBase.Communicate.CommunicateProxy(serverAddress, serverMinorPort, -1);
                 tempTcp.Login(user, pwd, false, true);
@@ -131,8 +194,10 @@ namespace FanJun.P2PSample.Peer
                 tempTcp.SendMessage(string.Format("{0}|{1}|{2}", key, tempTcp.LocalIP, tempTcp.LocalPort), arg1);
                 //tempTcp.Logout();
             }
-            else
+            else if (protocol == 2) //UDP
             {
+                int serverMinorPort = int.Parse(this.txtServerMinorPortUdp.Text.Trim());
+
                 byte[] bytesKey = Encoding.UTF8.GetBytes(string.Format("{0}|{1}", key, arg1));
                 byte[] bytesMsg = new byte[4 + bytesKey.Length];
                 bytesMsg[0] = 255;
@@ -205,17 +270,10 @@ namespace FanJun.P2PSample.Peer
             
             socket.Bind(localPoint);
             socket.BeginConnect(point, AsyncCallback_Connected, socket);
-
-            //m_p2pSocket = socket;
-            //ListenForData();
-            
-            //if (this.m_args[0] == "TCP_MATCHED_A")
-            //    this.m_tcpClient.InvokeSimpleCustomService("READY_A", new string[] { });
-            //else
-            //    this.m_tcpClient.InvokeSimpleCustomService("READY_B", new string[] { });
         }
 
         int m_retryTimes = 0;
+        bool m_changed = false;
         IPEndPoint m_remotePoint;
         Socket m_p2pSocket;
         private void AsyncCallback_Connected(IAsyncResult result)
@@ -228,10 +286,39 @@ namespace FanJun.P2PSample.Peer
             catch (Exception ex)
             {
                 AppendTextLine("P2P连接失败:" + ex.Message);
-                
+
                 if (m_remotePoint != null)
                 {
-                    if (m_retryTimes > 2) return;
+                    if (m_retryTimes > 2)
+                    {
+                        if (!this.m_changed)
+                        {
+                            m_retryTimes = 0;
+                            this.m_changed = true;
+                            AppendTextLine("更换内/外网地址尝试重连...");
+
+                            if (this.m_args[1] == this.m_args[5])
+                            {
+                                socket.BeginConnect(new IPEndPoint(IPAddress.Parse(this.m_args[1]), int.Parse(this.m_args[2])),
+                                    AsyncCallback_Connected, socket); //RemoteOuter
+                            }
+                            else
+                            {
+                                socket.BeginConnect(new IPEndPoint(IPAddress.Parse(this.m_args[3]), int.Parse(this.m_args[4])),
+                                    AsyncCallback_Connected, socket); //RemoteInner
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                socket.Shutdown(SocketShutdown.Both);
+                                socket.Close();
+                            }
+                            catch { }
+                        }
+                        return;
+                    }
 
                     AppendTextLine("等待后尝试重连...");
                     Thread.Sleep(3000);
@@ -250,9 +337,9 @@ namespace FanJun.P2PSample.Peer
             {
                 AppendTextLine("P2P连接成功 [{0}]<-->[{1}]", m_p2pSocket.LocalEndPoint.ToString(), m_p2pSocket.RemoteEndPoint.ToString());
 
+                ListenForData();
                 if (this.m_args[0] == "TCP_MATCHED_B")
                 {
-                    ListenForData();
                     this.m_tcpClient.InvokeSimpleCustomService("READY", new string[] { });
                 }
             }
@@ -282,8 +369,7 @@ namespace FanJun.P2PSample.Peer
                 }
                 catch (Exception ex)
                 {
-                    //SocketError("文件接受出错:" + ex.Message, null);
-                    //ClientLogger.Error("接受数据出错:" + ex.Message, ex);
+                    AppendTextLine("接受数据出错1:{0}", ex.Message);
                 }
             }
         }        
@@ -297,48 +383,12 @@ namespace FanJun.P2PSample.Peer
                     byte[] bs = e.Buffer;
                     string str = Encoding.UTF8.GetString(bs);
                     AppendTextLine(str);
-                    //if (tmpmsLength - tmpIndex <= e.BytesTransferred) //缓冲区过小,tmpmsLength为定义的为byte[]的缓存
-                    //{
-                    //    using (FileStream fileStream = new FileStream(fileInfo.fileName, FileMode.OpenOrCreate))
-                    //    {
-                    //        fileStream.Seek(currentFilePos - tmpIndex, SeekOrigin.Begin);
-                    //        fileStream.Write(ms, 0, tmpIndex);
-                    //        fileStream.Flush();
-                    //        fileStream.Close();
-
-                    //        tmpIndex = 0;
-                    //    }
-                    //}
-
-                    //Array.Copy(bs, 0, ms, tmpIndex, e.BytesTransferred);
-                    //currentFilePos += e.BytesTransferred;
-                    //tmpIndex += e.BytesTransferred;
-                    //if (FileTransfering != null)
-                    //    FileTransfering(currentFilePos);
-                    //e.Dispose();
-                    //if (currentFilePos < fileLength)
-                    //    ListenForData();
-                    //else
-                    //{
-                    //    if (tmpIndex != 0)
-                    //    {
-                    //        using (FileStream fileStream = new FileStream(fileInfo.fileName, FileMode.OpenOrCreate))
-                    //        {
-                    //            fileStream.Seek(currentFilePos - tmpIndex, SeekOrigin.Begin);
-                    //            fileStream.Write(ms, 0, tmpIndex);
-                    //            fileStream.Flush();
-                    //            fileStream.Close();
-                    //            tmpIndex = 0;
-                    //        }
-                    //    }
-                    //    if (FileTransferComplete != null)
-                    //        FileTransferComplete(null);
-                    //}
+                    AppendTextLine("");
+                    ListenForData();
                 }
                 catch (Exception ex)
                 {
-                    //SocketError("文件接受出错:" + ex.Message, null);
-                    //ClientLogger.Error("接受数据出错:" + ex.Message, ex);
+                    AppendTextLine("接受数据出错2:{0}", ex.Message);
                 }
             }
         }
@@ -376,46 +426,29 @@ namespace FanJun.P2PSample.Peer
             string[] args = msg.Split('|');
             switch (args[0])
             {
-                case "ASK_FOR_CONNECT":
-                    TryConnServer(args[1], "PEER_B");
+                case "ASK_FOR_CONNECT_TCP":
+                    TryConnServer(args[1], "PEER_B", 1);
+                    break;
+                case "ASK_FOR_CONNECT_UDP":
+                    TryConnServer(args[1], "PEER_B", 2);
                     break;
                 case "TCP_MATCHED_A":
                 case "TCP_MATCHED_B":
                     bool isBehindNAT = args[1] == args[3] && args[2] == args[4] ? false : true;
                     AppendTextLine("Target is behind NAT:{0}", isBehindNAT.ToString());
                     m_args = args;
-                    if (this.rdoTCP.Checked)
-                    {
-                        IPEndPoint localPoint = new IPEndPoint(IPAddress.Parse(this.m_localAddress), this.m_localPort);
-                        //同一个内网,优先用内网连接
-                        if (this.m_localAddress == args[3])
-                            ConnectEndPoint(localPoint, args[3], int.Parse(args[4]));//RemoteInner
-                        else
-                            ConnectEndPoint(localPoint, args[1], int.Parse(args[2]));//RemoteOuter
-                    }
+                    IPEndPoint localPoint = new IPEndPoint(IPAddress.Parse(this.m_localAddress), this.m_localPort);
+                    //同一个内网(外网IP相同),优先用内网连接.
+                    if (args[1] == args[5])
+                        ConnectEndPoint(localPoint, args[3], int.Parse(args[4]));//RemoteInner
                     else
-                    {
-                       
-                    }
-
-                    //TcpSocket tcps = new TcpSocket(localPoint,
-                    //    new IPEndPoint(IPAddress.Parse(args[3]), int.Parse(args[4])),
-                    //    new IPEndPoint(IPAddress.Parse(args[1]), int.Parse(args[2])));
-                    //if (tcps.Initialize() == true)
-                    //{
-                    //    //this.clientSocket = tcps as IP2PSocket;
-                    //    AppendTextLine("连接成功！");
-                    //}
-                    //else
-                    //{
-                    //    AppendTextLine("连接失败！");
-                    //}
+                        ConnectEndPoint(localPoint, args[1], int.Parse(args[2]));//RemoteOuter
                     break;
                 case "READY":
                     if (this.m_args[0] == "TCP_MATCHED_A")
-                        m_p2pSocket.Send(Encoding.UTF8.GetBytes("Hello, I'm A!"));
+                        m_p2pSocket.Send(Encoding.UTF8.GetBytes("Hello, I'm [A]" + this.User + "!"));
                     else
-                        m_p2pSocket.Send(Encoding.UTF8.GetBytes("Hello, I'm B!"));
+                        m_p2pSocket.Send(Encoding.UTF8.GetBytes("Hello, I'm [B]" + this.User + "!"));
                     break;
                 case "READY_A":
                     if (this.m_args[0] == "TCP_MATCHED_B")

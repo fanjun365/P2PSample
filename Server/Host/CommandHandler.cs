@@ -66,7 +66,8 @@ namespace FanJun.P2PSample.Server
             {
                 switch (methodName)
                 {
-                    case "ASK_FOR_CONNECT":
+                    case "ASK_FOR_CONNECT_TCP":
+                    case "ASK_FOR_CONNECT_UDP":
                         if (parameters == null || parameters.Length < 2)
                         {
                             result = null;
@@ -78,7 +79,7 @@ namespace FanJun.P2PSample.Server
                             string sourceUser = parameters[0];
                             string targetUser = parameters[1];
                             string key = P2PMatchManager.AddNew(sourceUser, targetUser);
-                            m_app.PushMessageToClientByAccount(new string[] { targetUser }, "ASK_FOR_CONNECT|" + key);
+                            m_app.PushMessageToClientByAccount(new string[] { targetUser }, methodName + "|" + key);
                             result = key;
                         }
                         break;

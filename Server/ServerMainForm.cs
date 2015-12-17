@@ -34,12 +34,14 @@ namespace FanJun.P2PSample.Server
         {
             if (string.IsNullOrEmpty(this.txtPrimaryPort.Text.Trim()))
                 return;
-            if (string.IsNullOrEmpty(this.txtMinorPort.Text.Trim()))
+            if (string.IsNullOrEmpty(this.txtMinorPortTcp.Text.Trim()))
                 return;
-            int portPrimary, portMinor;
+            int portPrimary, portMinorTcp, portMinorUdp;
             if (!int.TryParse(this.txtPrimaryPort.Text.Trim(), out portPrimary))
                 return;
-            if (!int.TryParse(this.txtMinorPort.Text.Trim(), out portMinor))
+            if (!int.TryParse(this.txtMinorPortTcp.Text.Trim(), out portMinorTcp))
+                return;
+            if (!int.TryParse(this.txtMinorPortUdp.Text.Trim(), out portMinorUdp))
                 return;
 
             string dirData = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
@@ -53,16 +55,13 @@ namespace FanJun.P2PSample.Server
                 //handler.ServiceContainer.RegistService<Interface.IMyService1>(new Service.MyService());
                 m_app_primary.Start(portPrimary, handler);
 
-                if (this.rdoTCP.Checked)
-                {
-                    if (m_app_minor == null)
-                        m_app_minor = ZLBase.Communicate.ServerApplication.New(false, "Minor", dirData);
-                    m_app_minor.Start(portMinor, new TcpCrossCommandHandler(this.AppendTextLine, m_app_primary));
-                }
-                else
-                {
-                    StartUdpServer(portMinor);
-                }
+                //TCP辅助打洞端口
+                if (m_app_minor == null)
+                    m_app_minor = ZLBase.Communicate.ServerApplication.New(false, "Minor", dirData);
+                m_app_minor.Start(portMinorTcp, new TcpCrossCommandHandler(this.AppendTextLine, m_app_primary));
+
+                //UDP辅助打洞端口
+                StartUdpServer(portMinorUdp);
             }
             catch (Exception ex)
             {

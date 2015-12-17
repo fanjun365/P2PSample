@@ -38,11 +38,13 @@
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.txtServerMinorPort = new System.Windows.Forms.TextBox();
+            this.txtServerMinorPortTcp = new System.Windows.Forms.TextBox();
             this.txtServerPrimaryPort = new System.Windows.Forms.TextBox();
             this.txtUserPwd = new System.Windows.Forms.TextBox();
             this.txtServerAddress = new System.Windows.Forms.TextBox();
             this.txtUser = new System.Windows.Forms.TextBox();
+            this.txtServerMinorPortUdp = new System.Windows.Forms.TextBox();
+            this.txtTargetUser = new System.Windows.Forms.TextBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -108,10 +110,12 @@
             this.groupBox1.Controls.Add(this.btnCheck);
             this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.btnLogin);
-            this.groupBox1.Controls.Add(this.txtServerMinorPort);
+            this.groupBox1.Controls.Add(this.txtServerMinorPortUdp);
+            this.groupBox1.Controls.Add(this.txtServerMinorPortTcp);
             this.groupBox1.Controls.Add(this.txtServerPrimaryPort);
             this.groupBox1.Controls.Add(this.txtUserPwd);
             this.groupBox1.Controls.Add(this.txtServerAddress);
+            this.groupBox1.Controls.Add(this.txtTargetUser);
             this.groupBox1.Controls.Add(this.txtUser);
             this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
@@ -122,7 +126,7 @@
             // rdoUDP
             // 
             this.rdoUDP.AutoSize = true;
-            this.rdoUDP.Location = new System.Drawing.Point(408, 41);
+            this.rdoUDP.Location = new System.Drawing.Point(256, 40);
             this.rdoUDP.Name = "rdoUDP";
             this.rdoUDP.Size = new System.Drawing.Size(41, 16);
             this.rdoUDP.TabIndex = 3;
@@ -133,7 +137,7 @@
             // 
             this.rdoTCP.AutoSize = true;
             this.rdoTCP.Checked = true;
-            this.rdoTCP.Location = new System.Drawing.Point(408, 19);
+            this.rdoTCP.Location = new System.Drawing.Point(256, 18);
             this.rdoTCP.Name = "rdoTCP";
             this.rdoTCP.Size = new System.Drawing.Size(41, 16);
             this.rdoTCP.TabIndex = 3;
@@ -157,9 +161,9 @@
             this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConnect.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnConnect.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnConnect.Location = new System.Drawing.Point(273, 15);
+            this.btnConnect.Location = new System.Drawing.Point(390, 15);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(129, 46);
+            this.btnConnect.Size = new System.Drawing.Size(86, 46);
             this.btnConnect.TabIndex = 1;
             this.btnConnect.Text = "&Connect";
             this.btnConnect.UseVisualStyleBackColor = false;
@@ -170,7 +174,7 @@
             this.btnLogin.BackColor = System.Drawing.Color.DarkSlateGray;
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.ForeColor = System.Drawing.Color.PowderBlue;
-            this.btnLogin.Location = new System.Drawing.Point(218, 15);
+            this.btnLogin.Location = new System.Drawing.Point(193, 15);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(49, 46);
             this.btnLogin.TabIndex = 1;
@@ -178,21 +182,21 @@
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // txtServerMinorPort
+            // txtServerMinorPortTcp
             // 
-            this.txtServerMinorPort.BackColor = System.Drawing.Color.LightGray;
-            this.txtServerMinorPort.Location = new System.Drawing.Point(164, 15);
-            this.txtServerMinorPort.Name = "txtServerMinorPort";
-            this.txtServerMinorPort.Size = new System.Drawing.Size(48, 21);
-            this.txtServerMinorPort.TabIndex = 0;
-            this.txtServerMinorPort.Text = "6665";
+            this.txtServerMinorPortTcp.BackColor = System.Drawing.Color.LightGray;
+            this.txtServerMinorPortTcp.Location = new System.Drawing.Point(301, 15);
+            this.txtServerMinorPortTcp.Name = "txtServerMinorPortTcp";
+            this.txtServerMinorPortTcp.Size = new System.Drawing.Size(48, 21);
+            this.txtServerMinorPortTcp.TabIndex = 0;
+            this.txtServerMinorPortTcp.Text = "6665";
             // 
             // txtServerPrimaryPort
             // 
             this.txtServerPrimaryPort.BackColor = System.Drawing.Color.LightGray;
             this.txtServerPrimaryPort.Location = new System.Drawing.Point(112, 15);
             this.txtServerPrimaryPort.Name = "txtServerPrimaryPort";
-            this.txtServerPrimaryPort.Size = new System.Drawing.Size(48, 21);
+            this.txtServerPrimaryPort.Size = new System.Drawing.Size(75, 21);
             this.txtServerPrimaryPort.TabIndex = 0;
             this.txtServerPrimaryPort.Text = "6666";
             // 
@@ -202,7 +206,7 @@
             this.txtUserPwd.Location = new System.Drawing.Point(112, 40);
             this.txtUserPwd.Name = "txtUserPwd";
             this.txtUserPwd.PasswordChar = '*';
-            this.txtUserPwd.Size = new System.Drawing.Size(100, 21);
+            this.txtUserPwd.Size = new System.Drawing.Size(75, 21);
             this.txtUserPwd.TabIndex = 0;
             this.txtUserPwd.Text = "123";
             // 
@@ -223,6 +227,25 @@
             this.txtUser.Size = new System.Drawing.Size(100, 21);
             this.txtUser.TabIndex = 0;
             this.txtUser.Text = "u01";
+            // 
+            // txtServerMinorPortUdp
+            // 
+            this.txtServerMinorPortUdp.BackColor = System.Drawing.Color.LightGray;
+            this.txtServerMinorPortUdp.Location = new System.Drawing.Point(301, 40);
+            this.txtServerMinorPortUdp.Name = "txtServerMinorPortUdp";
+            this.txtServerMinorPortUdp.Size = new System.Drawing.Size(48, 21);
+            this.txtServerMinorPortUdp.TabIndex = 0;
+            this.txtServerMinorPortUdp.Text = "6664";
+            // 
+            // txtTargetUser
+            // 
+            this.txtTargetUser.BackColor = System.Drawing.Color.LightGray;
+            this.txtTargetUser.Location = new System.Drawing.Point(353, 15);
+            this.txtTargetUser.Multiline = true;
+            this.txtTargetUser.Name = "txtTargetUser";
+            this.txtTargetUser.Size = new System.Drawing.Size(31, 46);
+            this.txtTargetUser.TabIndex = 0;
+            this.txtTargetUser.Text = "u02";
             // 
             // PeerMainForm
             // 
@@ -256,10 +279,12 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.TextBox txtServerPrimaryPort;
         private System.Windows.Forms.TextBox txtServerAddress;
-        private System.Windows.Forms.TextBox txtServerMinorPort;
+        private System.Windows.Forms.TextBox txtServerMinorPortTcp;
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.RadioButton rdoTCP;
         private System.Windows.Forms.RadioButton rdoUDP;
+        private System.Windows.Forms.TextBox txtServerMinorPortUdp;
+        private System.Windows.Forms.TextBox txtTargetUser;
     }
 }
 

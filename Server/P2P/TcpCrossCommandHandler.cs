@@ -60,17 +60,19 @@ namespace FanJun.P2PSample.Server
                         {
                             SessionStateInfo source_ssi = this.m_mainApp.SessionManager.GetSession(mp.SourceSID);
                             PushingMessageCommand source_cmd = new PushingMessageCommand();
-                            source_cmd.Message = string.Format("TCP_MATCHED_A|{0}|{1}|{2}|{3}", 
+                            source_cmd.Message = string.Format("TCP_MATCHED_A|{0}|{1}|{2}|{3}|{4}|{5}", 
                                 mp.TargetRemoteAddress, mp.TargetRemotePort,
-                                mp.TargetLocalAddress, mp.TargetLocalPort);
+                                mp.TargetLocalAddress, mp.TargetLocalPort,
+                                mp.SourceRemoteAddress, mp.SourceRemotePort);
                             source_cmd.SessionID = source_ssi.SessionInfo.SessionID;
                             source_ssi.Connection.SendResponse(source_cmd);
 
                             SessionStateInfo target_ssi = this.m_mainApp.SessionManager.GetSession(mp.TargetSID);
                             PushingMessageCommand target_cmd = new PushingMessageCommand();
-                            target_cmd.Message = string.Format("TCP_MATCHED_B|{0}|{1}|{2}|{3}",
+                            target_cmd.Message = string.Format("TCP_MATCHED_B|{0}|{1}|{2}|{3}|{4}|{5}",
                                 mp.SourceRemoteAddress, mp.SourceRemotePort,
-                                mp.SourceLocalAddress, mp.SourceLocalPort);
+                                mp.SourceLocalAddress, mp.SourceLocalPort,
+                                mp.TargetRemoteAddress, mp.TargetRemotePort);
                             target_cmd.SessionID = target_ssi.SessionInfo.SessionID;
                             target_ssi.Connection.SendResponse(target_cmd);
                         }
