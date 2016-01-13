@@ -142,7 +142,6 @@ namespace FanJun.P2PSample.Peer
 
         #endregion
 
-        bool shakeOne = false;
         bool shakeComplete = false;
         bool ShakeComplete
         {
@@ -161,68 +160,41 @@ namespace FanJun.P2PSample.Peer
         public bool Initialize()
         {
             if (this.udpSocket == null)
-            {
                 throw new Exception("使用了空的Socket");
-            }
             if (this.epRemote == null)
-            {
                 throw new Exception("使用了空的目标地址信息");
-            }
 
-            try
+            /*
+             * 连接建立过程：
+             * 1.启动一个线程一直接受信息
+             * 2.启动另外一个线程设置超时时间。
+             * 3.由于需要向外打洞，所以A/B两端都必须向外发送数据，但是B端接收到消息，回应OK，A端不做任何回应。
+             */
+            //接收握手消息线程
+            udpReceiveThread = new System.Threading.Thread(udpReceive);
+            udpReceiveThread.IsBackground = true;
+            udpReceiveThread.Name = "udpReceiveThread";
+            udpReceiveThread.Start();
+
+            Thread waitConnectThread = new Thread(WaitP2PConnect);
+            waitConnectThread.IsBackground = true;
+            waitConnectThread.Name = "waitConnectThread";
+            waitConnectThread.Start();
+
+            while (true)
             {
-                /*
-                 * 连接建立过程：
-                 * 1.启动一个线程一直接受信息
-                 * 2.启动另外一个线程设置超时时间。
-                 * 3.由于需要向外打洞，所以A/B两端都必须向外发送数据，但是B端接收到消息，回应OK，A端不做任何回应。
-                 */
-                //接收握手消息线程
-                try
+                Send("udp/");
+                Thread.Sleep(300);
+                if (ShakeComplete)
                 {
-                    udpReceiveThread = new System.Threading.Thread(udpReceive);
-                    udpReceiveThread.IsBackground = true;
-                    udpReceiveThread.Name = "udpReceiveThread";
-                    udpReceiveThread.Start();
+                    autoReset.Set();
+                    return true;
                 }
-                catch (Exception ex)
+                if (timeOut)
                 {
-                    throw ex;
+                    return false;
                 }
-
-                try
-                {
-                    Thread waitConnectThread = new Thread(WaitP2PConnect);
-                    waitConnectThread.IsBackground = true;
-                    waitConnectThread.Name = "waitConnectThread";
-                    waitConnectThread.Start();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                while (true)
-                {
-                    Send("udp/");
-                    Thread.Sleep(300);
-                    if (ShakeComplete == true)
-                    {
-                        autoReset.Set();
-                        return true;
-                    }
-                    if (timeOut == true)
-                    {
-                        return false;
-                    }
-                }
-
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
         }
 
         private void udpReceive()
@@ -234,12 +206,10 @@ namespace FanJun.P2PSample.Peer
                     try
                     {
                         string[] msg = this.Receive().Split('/');
-                        if (ResolveMsg(msg) == true)
-                        {
+                        if (ResolveMsg(msg))
                             break;
-                        }
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         timeOut = true;
                         break;
@@ -250,10 +220,7 @@ namespace FanJun.P2PSample.Peer
             {
                 Thread.ResetAbort();
             }
-            catch (Exception)
-            {
-                return;
-            }
+            catch { }
         }
 
         private bool ResolveMsg(string[] msg)
@@ -261,39 +228,33 @@ namespace FanJun.P2PSample.Peer
             switch (msg[0])
             {
                 case "udp":
-                    if (this.isService == false)
+                    if (!this.isService)
                     {
                         Send("ok/");
                     }
                     break;
                 case "ok":
+                    lock (this)
                     {
-                        lock (this)
-                        {
-                            ShakeComplete = true;
-                        }
-                        if (this.isService == true)
-                        {
-                            //if (P2P.MessengerP2PClient.P2PClient == null)
-                            //{
-                            //    return false;
-                            //}
-                            ////通知对方，UDP连接建立成功
-                            //P2P.MessengerP2PClient.P2PClient.UdpConnectSucceed(this.user);
-                        }
-                        return true;
+                        ShakeComplete = true;
                     }
-                default: break;
+                    if (this.isService)
+                    {
+                        Send("ok/");
+                    }
+                    return true;
+                default:
+                    break;
             }
             return false;
         }
 
         private void WaitP2PConnect()
         {
-            autoReset.WaitOne(2000); //设置握手超时时间为2S
-            lock (this)
+            try
             {
-                try
+                autoReset.WaitOne(2000); //设置握手超时时间为2S
+                lock (this)
                 {
                     if (ShakeComplete == false)
                     {
@@ -309,11 +270,8 @@ namespace FanJun.P2PSample.Peer
                     }
                     timeOut = true;
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
             }
+            catch { }
         }
 
         public void ConnectDistanceRemoteEndPoint(object sender, EventArgs e)
@@ -328,8 +286,7 @@ namespace FanJun.P2PSample.Peer
                     {
                         udpReceiveThread.Abort();
                     }
-                    catch
-                    { }
+                    catch { }
                 }
             }
         }

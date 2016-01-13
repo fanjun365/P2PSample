@@ -8,7 +8,6 @@ namespace FanJun.P2PSample.Peer
 {
     public class TcpSocket : IP2PSocket
     {
-
         //**********************************
         //对方本地端口
         private IPEndPoint iepRemoteInner = null;
@@ -265,7 +264,6 @@ namespace FanJun.P2PSample.Peer
         }
 
 
-        int excp = 0;
         /// <summary>
         /// 获取到已经连接的SOCKET，并释放Initialize中的阻塞
         /// </summary>

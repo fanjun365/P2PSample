@@ -95,7 +95,7 @@ namespace FanJun.P2PSample.Server
         private void StartUdpServer(int port)
         {
             m_udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPAddress address = this.GetLocalIP();
+            IPAddress address = this.GetLocalIPAddress();
             if (address == null)
                 throw new Exception("获取本地IP失败");
 
@@ -207,21 +207,6 @@ namespace FanJun.P2PSample.Server
                 return false;
             }
             return true;
-        }
-
-
-
-        private IPAddress GetLocalIP()
-        {
-            IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
-            for (int i = 0; i < IpEntry.AddressList.Length; i++)
-            {
-                if (IpEntry.AddressList[i].AddressFamily.ToString() == "InterNetwork")
-                {
-                    return IpEntry.AddressList[i];
-                }
-            }
-            return null;
         }
 
         #endregion
